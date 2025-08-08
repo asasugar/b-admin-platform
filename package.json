@@ -1,0 +1,58 @@
+{
+	"name": "b-admin-platform",
+	"version": "0.0.1",
+	"scripts": {
+		"preinstall": "npx only-allow pnpm",
+		"prepare": "husky install",
+		"dev": "cross-env NODE_ENV=development turbo run dev",
+		"stop": "turbo run build --filter @b-admin-platform/build-utils >/dev/null 2>&1 && dotenv -- tsx scripts/stop-ports.ts",
+		"dev:app": "pnpm stop && dotenv -- sh -c 'cross-env NODE_ENV=development turbo run dev --filter @b-admin-platform/backend --filter \"@b-admin-platform/frontend/$APP\"'",
+		"dev:all": "pnpm stop && cross-env NODE_ENV=development turbo run dev --filter @b-admin-platform/backend --filter \"@b-admin-platform/frontend/*\"",
+		"build": "turbo run build",
+		"build:app": "dotenv -- sh -c 'turbo run build --filter \"@b-admin-platform/frontend/$APP\"'",
+		"start:local": "pnpm build && cross-env NODE_ENV=production turbo run start --filter @b-admin-platform/backend",
+		"start:prod": "cross-env NODE_ENV=production turbo run start --filter @b-admin-platform/backend",
+		"clean": "turbo run clean && rm -rf node_modules",
+		"format": "pnpm exec turbo run format --force",
+		"lint": "pnpm exec turbo run lint --force",
+		"check": "pnpm exec turbo run check --force",
+		"c:add": "pnpm changeset add",
+		"c:version": "pnpm changeset version",
+		"publish:all": "pnpm publish -r --tag latest"
+	},
+	"devDependencies": {
+		"@b-admin-platform/build-utils": "workspace:^",
+		"@biomejs/biome": "catalog:",
+		"@changesets/cli": "catalog:",
+		"@commitlint/cli": "catalog:",
+		"@commitlint/config-conventional": "catalog:",
+		"@rsbuild/core": "catalog:",
+		"@rsbuild/plugin-less": "catalog:",
+		"@rsbuild/plugin-vue": "catalog:",
+		"@types/node": "catalog:",
+		"@types/react": "catalog:",
+		"@types/react-dom": "catalog:",
+		"cross-env": "catalog:",
+		"dotenv": "catalog:",
+		"dotenv-cli": "catalog:",
+		"husky": "catalog:",
+		"lint-staged": "catalog:",
+		"turbo": "catalog:",
+		"typescript": "catalog:"
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "lint-staged"
+		}
+	},
+	"lint-staged": {
+		"apps/**/*.{ts,tsx}": [
+			"pnpm format",
+			"git add ."
+		]
+	},
+	"engines": {
+		"node": ">=16.0.0",
+		"pnpm": ">=8.0.0"
+	}
+}

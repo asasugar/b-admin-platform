@@ -1,0 +1,56 @@
+{
+	"$schema": "https://turbo.build/schema.json",
+	"dangerouslyDisablePackageManagerCheck": true,
+	"globalDependencies": [".env", ".env.local", "config/env/.env.*"],
+	"globalEnv": [
+		"APP",
+		"NODE_ENV",
+		"BACKEND_PORT"
+	],
+	"ui": "tui",
+	"concurrency": "10",
+	"tasks": {
+		"dev": {
+			"cache": false,
+			"persistent": true,
+			"dependsOn": [
+				"^build"
+			]
+		},
+		"clean": {
+			"cache": false
+		},
+		"build": {
+			"cache": true,
+			"dependsOn": [
+				"^build"
+			],
+			"outputs": [
+				"dist/**",
+				"../../apps/**"
+			],
+			"outputLogs": "full"
+		},
+		"format": {
+			"cache": false,
+			"inputs": ["src/**/*"],
+			"outputs": []
+		},
+		"check": {
+			"cache": false,
+			"inputs": ["src/**/*"],
+			"outputs": []
+		},
+		"lint": {
+			"cache": false,
+			"inputs": ["src/**/*"],
+			"outputs": []
+		},
+		"start": {
+			"cache": false,
+			"dependsOn": [
+				"build"
+			]
+		}
+	}
+}

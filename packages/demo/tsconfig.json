@@ -1,0 +1,16 @@
+{
+	"extends": "../../config/typescript/react.json",
+	"compilerOptions": {
+		"allowJs": true,
+		"skipLibCheck": true,
+		"jsx": "react-jsx",
+		"baseUrl": "."
+	},
+	"include": [
+		"src/**/*.ts",
+		"src/**/*.d.ts",
+		"src/**/*.tsx",
+		"rsbuild.config.ts"
+	],
+	"exclude": ["node_modules", "dist"]
+}

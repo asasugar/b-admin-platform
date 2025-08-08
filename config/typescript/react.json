@@ -1,0 +1,19 @@
+{
+  "extends": "./base.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "types": ["node", "react", "react-dom", "react-router-dom"],
+    "lib": [
+      "esnext",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    },
+    "module": "ESNext",
+    "moduleResolution": "bundler"
+  }
+}

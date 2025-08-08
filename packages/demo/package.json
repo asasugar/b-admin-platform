@@ -1,0 +1,37 @@
+{
+	"name": "@b-admin-platform/frontend/demo",
+	"private": true,
+	"version": "1.0.0",
+	"scripts": {
+		"dev": "rsbuild dev",
+		"build": "rsbuild build",
+		"preview": "rsbuild preview",
+		"clean": "rm -rf node_modules",
+		"lint": "pnpm exec biome lint --write ./src",
+		"check": "pnpm exec biome check --write ./src",
+		"format": "pnpm exec biome format --write ./src"
+	},
+	"dependencies": {
+		"@b-admin-platform/services": "workspace:*",
+		"@formily/antd-v5": "catalog:",
+		"@formily/core": "catalog:",
+		"@formily/react": "catalog:",
+		"antd": "catalog:",
+		"axios": "catalog:",
+		"moment": "catalog:",
+		"react": "catalog:",
+		"react-dom": "catalog:",
+		"react-router-dom": "catalog:"
+	},
+	"devDependencies": {
+		"@b-admin-platform/build-utils": "workspace:*",
+		"@rsbuild/core": "catalog:",
+		"@rsbuild/plugin-react": "catalog:",
+		"@tailwindcss/postcss": "catalog:",
+		"@types/react": "catalog:",
+		"@types/react-dom": "catalog:",
+		"cross-env": "catalog:",
+		"tailwindcss": "catalog:",
+		"typescript": "catalog:"
+	}
+}
