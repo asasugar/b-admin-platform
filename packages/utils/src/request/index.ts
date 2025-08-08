@@ -24,7 +24,6 @@ const http = axios.create();
 http.interceptors.response.use(
   (response: AxiosResponse) => {
     const config = response.config;
-
     // 2xx的状态码走这里
     // 不拦截
     if ((config as any).disableInterceptResponse) {

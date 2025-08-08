@@ -7,15 +7,15 @@
 		"NODE_ENV",
 		"BACKEND_PORT"
 	],
-	"ui": "tui",
 	"concurrency": "10",
 	"tasks": {
 		"dev": {
 			"cache": false,
-			"persistent": true,
-			"dependsOn": [
-				"^build"
-			]
+			"persistent": true
+		},
+		"watch": {
+			"cache": false,
+			"persistent": true
 		},
 		"clean": {
 			"cache": false

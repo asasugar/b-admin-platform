@@ -6,7 +6,7 @@
   "module": "./dist/index.esm.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "dev": "tsup --watch",
+    "watch": "tsup --watch",
     "build": "tsup",
     "clean": "rm -rf node_modules",
     "lint": "pnpm exec biome lint --write ./src",
