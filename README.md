@@ -6,7 +6,7 @@
 
 ### 前端
 
-- React 18
+- React 19
 - TypeScript
 - Rsbuild
 - TailwindCSS
