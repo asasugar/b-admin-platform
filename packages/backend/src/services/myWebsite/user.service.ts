@@ -29,8 +29,6 @@ class UserService {
 
   async getUserInfo({ userId }: { userId: number }): Promise<UserInfo> {
     // 这里应该实现实际的用户信息获取逻辑
-    console.log('%c [ userId ]-33', 'font-size:13px; background:pink; color:#bf2c9f;', userId)
-
     if (userId === this.mockUser.id) {
       return this.mockUser;
     }

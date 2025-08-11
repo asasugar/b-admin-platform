@@ -50,7 +50,10 @@ async function startMockLogin(ctx: Context, config: AdminAuthOptions): Promise<s
     // 设置cookie
     ctx.cookies.set(config.adminCookieKey, cookieId, {
       httpOnly: true,
-      secure: ctx.secure
+      secure: ctx.secure,
+      maxAge: 24 * 60 * 60 * 1000, // 24小时
+      sameSite: 'lax' as const,
+      path: '/'
     });
 
     console.log('模拟登录成功:', { cookieId });
@@ -84,6 +87,11 @@ export async function authMiddleware(options?: AdminAuthOptions) {
    */
   return async (ctx: Context, next: Next) => {
     try {
+      // 跳过登录接口的认证
+      if (ctx.path === '/myWebsite/user/login') {
+        return await next();
+      }
+
       // 获取cookie中的cookieId
       let cookieId = ctx.cookies.get(config.adminCookieKey);
       if (config.adminCookieValue) {
@@ -98,6 +106,12 @@ export async function authMiddleware(options?: AdminAuthOptions) {
         // 处理无cookie情况
         try {
           cookieId = await startMockLogin(ctx, config as AdminAuthOptions);
+          if (!cookieId) {
+            return ctx.helper.error({
+              message: '模拟登录失败',
+              code: 302
+            });
+          }
         } catch (error: unknown) {
           const errorMessage = error instanceof Error ? error.message : String(error);
           return ctx.helper.error({
@@ -118,7 +132,10 @@ export async function authMiddleware(options?: AdminAuthOptions) {
       // 更新cookie并继续处理请求
       ctx.cookies.set(config.adminCookieKey, cookieId, {
         httpOnly: true,
-        secure: ctx.secure
+        secure: ctx.secure,
+        maxAge: 24 * 60 * 60 * 1000, // 24小时
+        sameSite: 'lax' as const,
+        path: '/'
       });
       await next();
     } catch (error) {

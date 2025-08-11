@@ -6,7 +6,7 @@ const API_BASE_URLS = {
 } as const;
 
 // 创建服务请求实例
-const createOtherWebsiteRequest = (method: typeof createGet | typeof createPost) =>
+const createOtherWebsiteRequest = (method: typeof createGet | typeof createPost | typeof createDelete) =>
   method(API_BASE_URLS.OTHERWEBSITE);
 
 /**
@@ -14,7 +14,7 @@ const createOtherWebsiteRequest = (method: typeof createGet | typeof createPost)
  */
 export const otherWebsiteApi = {
   getTodos: createOtherWebsiteRequest(createGet)('/todo/list'),
-  createTodo: createOtherWebsiteRequest(createPost)('/todo/create'),
+  createTodo: createOtherWebsiteRequest(createGet)('/todo/create'),
   updateTodo: createOtherWebsiteRequest(createPost)('/todo/update'),
-  deleteTodo: createOtherWebsiteRequest(createDelete)('/todo/delete')
+  deleteTodo: (params: { id: number }) => createOtherWebsiteRequest(createDelete)(`/todo/delete/${params.id}`)({}) // 空对象作为参数，因为 id 已经在路径中
 };

@@ -11,7 +11,7 @@ const config = () => {
     // 值存在 本地开启自动登录
     mockLogin: {
       enabled: true,
-      mockUrl: 'http://localhost:3000/api/user/login', // 替换成登录接口
+      mockUrl: 'http://localhost:3000/myWebsite/user/login', // 替换成登录接口
       mockData: {
         username: 'admin',
         password: 'admin123'

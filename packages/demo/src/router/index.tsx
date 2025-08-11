@@ -3,7 +3,7 @@ import type { RouteObject } from 'react-router-dom';
 
 const Home = React.lazy(() => import('../pages/Home'));
 const NotFound = React.lazy(() => import('../pages/NotFound'));
-const Formily = React.lazy(() => import('../pages/Formily'));
+const Formily = React.lazy(() => import('../pages/tabs/Formily'));
 
 export const routes: RouteObject[] = [
   {

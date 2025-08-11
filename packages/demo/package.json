@@ -21,7 +21,8 @@
 		"moment": "catalog:",
 		"react": "catalog:",
 		"react-dom": "catalog:",
-		"react-router-dom": "catalog:"
+		"react-router-dom": "catalog:",
+		"zustand": "^5.0.7"
 	},
 	"devDependencies": {
 		"@b-admin-platform/build-utils": "workspace:*",

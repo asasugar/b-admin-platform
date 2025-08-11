@@ -1,6 +1,7 @@
 import { Modal, message } from 'antd';
 import type { AxiosRequestConfig, AxiosResponse } from 'axios';
 import axios from 'axios';
+// import qs from 'qs';
 
 export interface ApiResponse<T = any> {
   code: number;
@@ -13,15 +14,20 @@ import { login } from '../domain';
 // 判断当前环境是否是本地
 const IS_LOCAL = ['localhost', '127.0.0.1'].includes(location.hostname);
 
+
+const instance = axios.create();
+
 // axios发送的请求，如果请求本身为空，则会改将content-type转为application/x-www-form-urlencoded，需要手动设置默认值避免出现自动转的情况
-axios.defaults.headers['Content-Type'] = 'application/json; charset=utf-8';
+// instance.defaults.headers['Content-Type'] = 'application/json; charset=utf-8';
+instance.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+instance.defaults.headers.Accept = 'application/json';
+// instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
-const http = axios.create();
+instance.defaults.timeout = 5000;
 
-// http请求附加 region 参数
 
 // 返回拦截
-http.interceptors.response.use(
+instance.interceptors.response.use(
   (response: AxiosResponse) => {
     const config = response.config;
     // 2xx的状态码走这里
@@ -40,7 +46,6 @@ http.interceptors.response.use(
   },
   (error) => {
     // 非2xx的状态码会走这里
-    console.log('%c [ error ]-39', 'font-size:13px; background:pink; color:#bf2c9f;', error.response)
 
     const { status } = error.response;
     const notLogin302 = status === 302 && error.response.data === '未登录';
@@ -85,18 +90,26 @@ export const createGet =
   <T = any>(baseURL: string) =>
   (url: string, options?: AxiosRequestConfig) =>
   (params?: object): Promise<ApiResponse<T>> =>
-    http.get(url, { params, baseURL, ...options });
+    instance.get(url, { params, baseURL, ...options });
 
 export const createPost =
   <T = any>(baseURL: string) =>
   (url: string, options?: AxiosRequestConfig) =>
-  (data?: object): Promise<ApiResponse<T>> =>
-    http.post(url, data, { baseURL, ...options });
+  (data?: object): Promise<ApiResponse<T>> => {
+    const formData = new URLSearchParams();
+    if (data) {
+      Object.entries(data).forEach(([key, value]) => {
+        formData.append(key, String(value));
+      });
+    }
+    return instance.post(url, formData, { baseURL, ...options });
+  }
+
 
 export const createDelete =
   <T = any>(baseURL: string) =>
   (url: string, options?: AxiosRequestConfig) =>
   (params?: object): Promise<ApiResponse<T>> =>
-    http.delete(url, { params, baseURL, ...options });
+    instance.delete(url, { params, baseURL, ...options });
 
-export { http };
+export { instance };
