@@ -1,5 +1,5 @@
 import { otherWebsiteApi } from '@b-admin-platform/services';
-import { Button, Form, Input, List, Modal, Typography } from 'antd';
+import { Button, Form, Input, List, Modal, message, Typography } from 'antd';
 import { useEffect, useState } from 'react';
 
 const { Title } = Typography;
@@ -14,6 +14,8 @@ const TodoDemo = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
+  const [messageApi, contextHolder] = message.useMessage();
+
 
   const fetchTodos = async () => {
     const res = await otherWebsiteApi.getTodos();
@@ -44,6 +46,10 @@ const TodoDemo = () => {
     const res = await otherWebsiteApi.deleteTodo({ id });
     if (res.code === 0) {
       fetchTodos();
+      messageApi.open({
+        type: 'success',
+        content: res.message || '删除成功',
+      });
     }
   };
 
@@ -59,6 +65,7 @@ const TodoDemo = () => {
 
   return (
     <div>
+      {contextHolder}
       <div
         style={{
           display: 'flex',
