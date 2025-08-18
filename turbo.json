@@ -8,14 +8,14 @@
 		"BACKEND_PORT"
 	],
 	"concurrency": "10",
+
 	"tasks": {
 		"dev": {
 			"cache": false,
-			"persistent": true
-		},
-		"watch": {
-			"cache": false,
-			"persistent": true
+			"persistent": true,
+			"dependsOn": [
+				"^build"
+			]
 		},
 		"clean": {
 			"cache": false

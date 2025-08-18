@@ -14,7 +14,7 @@ const createOtherWebsiteRequest = (method: typeof createGet | typeof createPost 
  */
 export const otherWebsiteApi = {
   getTodos: createOtherWebsiteRequest(createGet)('/todo/list'),
-  createTodo: createOtherWebsiteRequest(createGet)('/todo/create'),
+  createTodo: createOtherWebsiteRequest(createPost)('/todo/create'),
   updateTodo: createOtherWebsiteRequest(createPost)('/todo/update'),
   deleteTodo: (params: { id: number }) => createOtherWebsiteRequest(createDelete)(`/todo/delete/${params.id}`)({}) // 空对象作为参数，因为 id 已经在路径中
 };

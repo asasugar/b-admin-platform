@@ -26,7 +26,7 @@ async function startMockLogin(ctx: Context, config: AdminAuthOptions): Promise<s
     const response = await fetch(mockUrl, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
         Accept: 'application/json'
       },
       body: formData

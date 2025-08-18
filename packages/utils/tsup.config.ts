@@ -9,7 +9,7 @@ export default defineConfig({
   treeshake: true,
   sourcemap: true,
   minify: process.env.NODE_ENV === 'production',
-  external: ['axios', 'qs'],
+  external: ['axios'],
   noExternal: [],
   esbuildOptions(options) {
     // 在开发模式下禁用代码压缩和混淆

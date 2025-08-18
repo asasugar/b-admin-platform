@@ -13,8 +13,10 @@ const app = new Koa();
 
 // 基础中间件
 app.use(helperMiddleware()); // 帮助函数中间件
+// 代理中间件
+app.use(proxyMiddleware());
 app.use(bodyParser()); // 解析请求体中间件
-
+// Please make sure that `koa-proxies` is in front of `koa-bodyparser` to avoid this [issue 55](https://github.com/vagusX/koa-proxies/issues/55)
 // myWebsite子系统 - 用户路由
 app.use(myWebsiteUserController.routes());
 app.use(myWebsiteUserController.allowedMethods());
@@ -23,8 +25,7 @@ app.use(myWebsiteUserController.allowedMethods());
 app.use(otherWebsiteTodoController.routes());
 app.use(otherWebsiteTodoController.allowedMethods());
 
-// 代理中间件
-app.use(proxyMiddleware());
+
 
 if (process.env.NODE_ENV === 'production') {
   // 前端应用静态文件服务 - 优先级最高

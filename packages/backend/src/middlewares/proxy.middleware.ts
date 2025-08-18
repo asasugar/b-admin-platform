@@ -109,7 +109,7 @@ function createProxy(ctx: Context, proxyInfo: ProxyInfo) {
           const buffer = Buffer.concat(chunks);
           const responseBody = buffer.toString();
           try {
-            proxyLogInfo.responseBody = JSON.parse(responseBody);
+            proxyLogInfo.responseBody = typeof responseBody === 'string' ? JSON.parse(responseBody) : responseBody;
           } catch (err) {
             console.error('Failed to parse response body:', err);
             // 如果解析失败，返回原始字符串
@@ -126,24 +126,32 @@ function createProxy(ctx: Context, proxyInfo: ProxyInfo) {
 
 export function proxyMiddleware() {
   return async (ctx: Context, next: Next) => {
-    const proxyInfo = await extractProxyInfo(ctx);
+    try {
+      const proxyInfo = await extractProxyInfo(ctx);
 
-    if (proxyInfo) {
-      // 创建代理中间件并执行
-      const serviceProxy = createProxy(ctx, proxyInfo);
-      await serviceProxy(ctx, next);
-      return;
-    }
+      if (proxyInfo) {
+        // 创建代理中间件并执行
+        const serviceProxy = createProxy(ctx, proxyInfo);
+        await serviceProxy(ctx, next);
+        return;
+      }
 
-    if (ctx.path.startsWith('/api/proxy/')) {
-      // 如果是代理请求但没有找到对应的服务配置，返回404
+      if (ctx.path.startsWith('/api/proxy/')) {
+        // 如果是代理请求但没有找到对应的服务配置，返回404
+        ctx.helper.error({
+          message: 'Service not found',
+          code: 404
+        });
+        return;
+      }
+
+      await next();
+    } catch (error) {
+      console.error('Failed to extract proxy info:', error);
       ctx.helper.error({
-        message: 'Service not found',
-        code: 404
+        message: 'Failed to extract proxy info',
+        code: 500
       });
-      return;
     }
-
-    await next();
   };
 }

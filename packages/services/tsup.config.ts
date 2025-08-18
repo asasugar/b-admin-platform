@@ -11,5 +11,5 @@ export default defineConfig({
   dts: true,
   outDir: 'dist',
   format: ['cjs', 'esm'],
-  external: ['@b-admin-platform/utils']
+  splitting: false,
 });

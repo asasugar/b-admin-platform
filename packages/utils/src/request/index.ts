@@ -1,7 +1,6 @@
 import { Modal, message } from 'antd';
 import type { AxiosRequestConfig, AxiosResponse } from 'axios';
 import axios from 'axios';
-// import qs from 'qs';
 
 export interface ApiResponse<T = any> {
   code: number;
@@ -14,17 +13,13 @@ import { login } from '../domain';
 // 判断当前环境是否是本地
 const IS_LOCAL = ['localhost', '127.0.0.1'].includes(location.hostname);
 
-
 const instance = axios.create();
 
 // axios发送的请求，如果请求本身为空，则会改将content-type转为application/x-www-form-urlencoded，需要手动设置默认值避免出现自动转的情况
-// instance.defaults.headers['Content-Type'] = 'application/json; charset=utf-8';
-instance.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+instance.defaults.headers['Content-Type'] = 'application/json';
 instance.defaults.headers.Accept = 'application/json';
-// instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 instance.defaults.timeout = 5000;
-
 
 // 返回拦截
 instance.interceptors.response.use(
@@ -95,16 +90,8 @@ export const createGet =
 export const createPost =
   <T = any>(baseURL: string) =>
   (url: string, options?: AxiosRequestConfig) =>
-  (data?: object): Promise<ApiResponse<T>> => {
-    const formData = new URLSearchParams();
-    if (data) {
-      Object.entries(data).forEach(([key, value]) => {
-        formData.append(key, String(value));
-      });
-    }
-    return instance.post(url, formData, { baseURL, ...options });
-  }
-
+  (data?: object): Promise<ApiResponse<T>> =>
+    instance.post(url, data, { baseURL, ...options });
 
 export const createDelete =
   <T = any>(baseURL: string) =>
