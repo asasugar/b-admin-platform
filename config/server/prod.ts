@@ -5,10 +5,10 @@ const config: ConfigFunction = () => ({
   oapis: {
     // 需要代理转发的接口
     myWebsite: {
-      domain: 'http://localhost:3000/myWebsite'
+      domain: 'http://localhost:3000/api/myWebsite'
     },
     otherWebsite: {
-      domain: 'http://localhost:3000/otherWebsite'
+      domain: 'http://localhost:3000/api/otherWebsite'
     }
   },
 });

@@ -1,2 +1,2 @@
-export * from './myWebsite/user';
-export * from './otherWebsite/todo';
+export * from './myWebsite';
+export * from './otherWebsite';

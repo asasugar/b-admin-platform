@@ -4,7 +4,7 @@ import { todoService } from '../../services/otherWebsite/todo.service';
 import type { CreateTodoDTO, UpdateTodoDTO } from '../../types/otherWebsite/todo';
 
 const router = new Router({
-  prefix: '/otherWebsite/todo'
+  prefix: '/api/otherWebsite/todo'
 });
 
 // 获取所有待办事项

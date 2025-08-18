@@ -49,6 +49,7 @@ export const getReactConfig = ({ name, root, port }: ChildConfigOptions) => {
       headers: {
         'Access-Control-Allow-Origin': '*'
       },
+      // 前端代理后端接口：前端请求 localhost:8000/api/proxy/myWebsite/formily/query 代理到后端（localhost:3000/api/proxy/myWebsite/formily/query）
       proxy: {
         '/api': {
           target: 'http://localhost:3000',

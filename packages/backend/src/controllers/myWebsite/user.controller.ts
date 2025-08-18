@@ -13,7 +13,7 @@ const getConfig = async () => {
 };
 
 const router = new Router({
-  prefix: '/myWebsite/user'
+  prefix: '/api/myWebsite/user'
 });
 
 // 登录接口

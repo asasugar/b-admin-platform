@@ -64,6 +64,7 @@ async function startMockLogin(ctx: Context, config: AdminAuthOptions): Promise<s
     throw new Error(`模拟登录失败: ${errorMessage}`);
   }
 }
+
 // Auth 中间件
 export async function authMiddleware(options?: AdminAuthOptions) {
   const _config = (await import('../../../../config/server/local')).default();
@@ -81,6 +82,7 @@ export async function authMiddleware(options?: AdminAuthOptions) {
     ...defaultOptions,
     ...options
   };
+
   /**
    * 中间件主函数
    * 处理认证逻辑，包括cookie验证、模拟登录和重定向
@@ -137,6 +139,8 @@ export async function authMiddleware(options?: AdminAuthOptions) {
         sameSite: 'lax' as const,
         path: '/'
       });
+
+      // 执行后续中间件
       await next();
     } catch (error) {
       return ctx.helper.error({
