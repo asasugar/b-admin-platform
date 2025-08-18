@@ -90,7 +90,7 @@ export async function authMiddleware(options?: AdminAuthOptions) {
   return async (ctx: Context, next: Next) => {
     try {
       // 跳过登录接口的认证
-      if (ctx.path === '/myWebsite/user/login') {
+      if (ctx.status !== 200) {
         return await next();
       }
 
@@ -105,6 +105,7 @@ export async function authMiddleware(options?: AdminAuthOptions) {
           });
         }
       } else if (!cookieId && config.mockLogin?.enabled) {
+        console.log('%c [ cookieId ]-108', 'font-size:13px; background:pink; color:#bf2c9f;', ctx, ctx.path, ctx.status, ctx.statusCode);
         // 处理无cookie情况
         try {
           cookieId = await startMockLogin(ctx, config as AdminAuthOptions);
@@ -116,10 +117,12 @@ export async function authMiddleware(options?: AdminAuthOptions) {
           }
         } catch (error: unknown) {
           const errorMessage = error instanceof Error ? error.message : String(error);
-          return ctx.helper.error({
-            message: errorMessage,
-            code: 302
-          });
+          console.log('%c [ errorMessage ]-120', 'font-size:13px; background:pink; color:#bf2c9f;', errorMessage)
+          // return ctx.helper.error({
+          //   message: errorMessage,
+          //   code: 303
+          // });
+          return;
         }
       }
 

@@ -11,7 +11,6 @@ const router = new Router({
 router.get('/getUsers', async (ctx: RouterContext) => {
   try {
     const dto: FormilyUserQueryParams = ctx.request.query;
-
     const data = await formilyService.getUsers(dto);
     ctx.body = {
       code: 0,

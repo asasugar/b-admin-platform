@@ -1,3 +1,4 @@
+import { BError } from '@/utils/error';
 import type { CreateTodoDTO, Todo, UpdateTodoDTO } from '../../types/otherWebsite/todo';
 
 class TodoService {
@@ -32,9 +33,12 @@ class TodoService {
 
   // 更新待办事项
   async updateTodo(dto: UpdateTodoDTO): Promise<Todo> {
-    const todo = this.todos.find(t => t.id === dto.id);
+    if (Number.isNaN(dto.id)) {
+      throw new BError('id 参数异常', 500);
+    }
+    const todo = this.todos.find((t) => t.id === dto.id);
     if (!todo) {
-      throw new Error('待办事项不存在');
+      throw new BError('待办事项不存在');
     }
 
     Object.assign(todo, {
@@ -47,9 +51,12 @@ class TodoService {
 
   // 删除待办事项
   async deleteTodo(id: number): Promise<void> {
-    const index = this.todos.findIndex(t => t.id === id);
+    if (Number.isNaN(id)) {
+      throw new BError('id 参数异常', 500);
+    }
+    const index = this.todos.findIndex((t) => t.id === id);
     if (index === -1) {
-      throw new Error('待办事项不存在');
+      throw new BError('待办事项不存在');
     }
     this.todos.splice(index, 1);
   }

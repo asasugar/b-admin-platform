@@ -41,8 +41,12 @@ const FormilyDemo = () => {
 
   const handleSubmit = async (values: FormilyUserQueryParams) => {
     try {
-      const response = await formilyApi.getUsers(values);
-      const { list, total } = response.data;
+      const res = await formilyApi.getUsers(values);
+      if (res.code !== 0) {
+        message.error(res.message);
+        return;
+      }
+      const { list, total } = res.data || { list: [], total: 0 };
       setTableData(list);
       setTotal(total);
       message.success(`查询成功，共找到 ${total} 条数据`);

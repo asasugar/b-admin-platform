@@ -14,6 +14,8 @@ const app = new Koa();
 
 // 基础中间件
 app.use(helperMiddleware()); // 帮助函数中间件
+// 404 中间件
+app.use(notFoundMiddleware());
 
 // 代理中间件
 // Please make sure that `koa-proxies` is in front of `koa-bodyparser` to avoid this [issue 55](https://github.com/vagusX/koa-proxies/issues/55)
@@ -32,9 +34,6 @@ app.use(otherWebsiteTodoController.allowedMethods());
 app.use(formilyController.routes());
 app.use(formilyController.allowedMethods());
 
-
-// 404 中间件
-app.use(notFoundMiddleware());
 
 if (process.env.NODE_ENV === 'production') {
   // 前端应用静态文件服务 - 优先级最高

@@ -109,7 +109,10 @@ function createProxy(ctx: Context, proxyInfo: ProxyInfo) {
           const buffer = Buffer.concat(chunks);
           const responseBody = buffer.toString();
           try {
-            proxyLogInfo.responseBody = typeof responseBody === 'string' ? JSON.parse(responseBody) : responseBody;
+            proxyLogInfo.responseBody =
+              typeof responseBody === 'string' && responseBody.startsWith('{')
+                ? JSON.parse(responseBody)
+                : responseBody;
           } catch (err) {
             console.error('Failed to parse response body:', err);
             // 如果解析失败，返回原始字符串
@@ -135,16 +138,6 @@ export function proxyMiddleware() {
         await serviceProxy(ctx, next);
         return;
       }
-
-      if (ctx.path.startsWith('/api/proxy/')) {
-        // 如果是代理请求但没有找到对应的服务配置，返回404
-        ctx.helper.error({
-          message: 'Service not found',
-          code: 404
-        });
-        return;
-      }
-
       await next();
     } catch (error) {
       console.error('Failed to extract proxy info:', error);

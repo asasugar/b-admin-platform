@@ -1,6 +1,7 @@
 import type { RouterContext } from '@koa/router';
 import Router from '@koa/router';
 import jwt from 'jsonwebtoken';
+import { BError } from '@/utils/error';
 import { userService } from '../../services/myWebsite/user.service';
 import type { UserLoginDTO } from '../../types/myWebsite/user';
 
@@ -37,11 +38,18 @@ router.post('/login', async (ctx: RouterContext) => {
       message: '登录成功'
     };
   } catch (error) {
-    ctx.status = 401;
-    ctx.body = {
-      code: 401,
-      message: error instanceof Error ? error.message : '登录失败'
-    };
+    if (error instanceof BError) {
+      ctx.status = error.code;
+      ctx.helper.error({
+        message: error.message,
+        code: error.code
+      });
+    } else {
+      ctx.helper.error({
+        message: error instanceof Error ? error.message : '登录失败',
+        code: 401
+      });
+    }
   }
 });
 
@@ -51,11 +59,10 @@ router.get('/info', async (ctx: RouterContext) => {
     const config = await getConfig();
     const token = ctx.cookies.get(config.adminCookieKey);
     if (!token) {
-      ctx.status = 401;
-      ctx.body = {
-        code: 401,
-        message: '未登录或登录已过期'
-      };
+      ctx.helper.error({
+        message: '未登录或登录已过期',
+        code: 401
+      });
       return;
     }
 
@@ -64,11 +71,10 @@ router.get('/info', async (ctx: RouterContext) => {
       const decoded = jwt.verify(token, JWT_SECRET) as { id: number };
       userId = decoded.id;
     } catch {
-      ctx.status = 401;
-      ctx.body = {
-        code: 401,
-        message: '无效的认证信息'
-      };
+      ctx.helper.error({
+        message: '无效的认证信息',
+        code: 401
+      });
       return;
     }
 
@@ -79,11 +85,18 @@ router.get('/info', async (ctx: RouterContext) => {
       message: '获取用户信息成功'
     };
   } catch (error) {
-    ctx.status = 404;
-    ctx.body = {
-      code: 404,
-      message: error instanceof Error ? error.message : '获取用户信息失败'
-    };
+    if (error instanceof BError) {
+      ctx.status = error.code;
+      ctx.helper.error({
+        message: error.message,
+        code: error.code
+      });
+    } else {
+      ctx.helper.error({
+        message: error instanceof Error ? error.message : '获取用户信息失败',
+        code: 401
+      });
+    }
   }
 });
 

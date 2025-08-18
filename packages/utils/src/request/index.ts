@@ -1,28 +1,52 @@
 import { Modal, message } from 'antd';
-import type { AxiosRequestConfig, AxiosResponse } from 'axios';
+import type { AxiosError, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import axios from 'axios';
-
-export interface ApiResponse<T = any> {
-  code: number;
-  data: T;
-  message: string;
-}
-
 import { login } from '../domain';
+import responseHandle from './responseHandle';
 
 // 判断当前环境是否是本地
 const IS_LOCAL = ['localhost', '127.0.0.1'].includes(location.hostname);
 
-const instance = axios.create();
+const axiosInstance: AxiosInstance = axios.create({
+  baseURL: '',
+  timeout: 5000,
+  headers: {
+    'content-type': 'application/json'
+  }
+});
 
-// axios发送的请求，如果请求本身为空，则会改将content-type转为application/x-www-form-urlencoded，需要手动设置默认值避免出现自动转的情况
-instance.defaults.headers['Content-Type'] = 'application/json';
-instance.defaults.headers.Accept = 'application/json';
+// 添加请求拦截器
+axiosInstance.interceptors.request.use(
+  (config: InternalAxiosRequestConfig) => {
+    if (
+      config?.method?.toLocaleLowerCase() === 'post' ||
+      config?.method?.toLocaleLowerCase() === 'put'
+    ) {
+      // 参数统一处理，请求都使用data传参
+      Object.assign(config, { ...config.data });
+    } else if (
+      config?.method?.toLocaleLowerCase() === 'get' ||
+      config?.method?.toLocaleLowerCase() === 'delete'
+    ) {
+      // 参数统一处理
+      config.params = config.data;
+      console.log(
+        '%c [ config.params ]-40',
+        'font-size:13px; background:pink; color:#bf2c9f;',
+        config
+      );
+    } else {
+      return Promise.reject(new Error(`不允许的请求方法：${config.method}`));
+    }
+    return config;
+  },
+  (error: AxiosError) => {
+    return Promise.reject(error);
+  }
+);
 
-instance.defaults.timeout = 5000;
-
-// 返回拦截
-instance.interceptors.response.use(
+// 添加响应拦截器
+axiosInstance.interceptors.response.use(
   (response: AxiosResponse) => {
     const config = response.config;
     // 2xx的状态码走这里
@@ -37,7 +61,7 @@ instance.interceptors.response.use(
       return Promise.reject(response.data);
     }
 
-    return response.data;
+    return response;
   },
   (error) => {
     // 非2xx的状态码会走这里
@@ -76,27 +100,4 @@ instance.interceptors.response.use(
   }
 );
 
-/**
- *
- * @param {string} baseURL 基础路径
- * @returns
- */
-export const createGet =
-  <T = any>(baseURL: string) =>
-  (url: string, options?: AxiosRequestConfig) =>
-  (params?: object): Promise<ApiResponse<T>> =>
-    instance.get(url, { params, baseURL, ...options });
-
-export const createPost =
-  <T = any>(baseURL: string) =>
-  (url: string, options?: AxiosRequestConfig) =>
-  (data?: object): Promise<ApiResponse<T>> =>
-    instance.post(url, data, { baseURL, ...options });
-
-export const createDelete =
-  <T = any>(baseURL: string) =>
-  (url: string, options?: AxiosRequestConfig) =>
-  (params?: object): Promise<ApiResponse<T>> =>
-    instance.delete(url, { params, baseURL, ...options });
-
-export { instance };
+export { axiosInstance, responseHandle };

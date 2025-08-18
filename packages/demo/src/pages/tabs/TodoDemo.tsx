@@ -1,21 +1,14 @@
-import { otherWebsiteApi } from '@b-admin-platform/services';
+import { otherWebsiteApi, type TodoItem } from '@b-admin-platform/services';
 import { Button, Form, Input, List, Modal, message, Typography } from 'antd';
 import { useEffect, useState } from 'react';
 
 const { Title } = Typography;
 
-interface Todo {
-  id: number;
-  title: string;
-  completed: boolean;
-}
-
 const TodoDemo = () => {
-  const [todos, setTodos] = useState<Todo[]>([]);
+  const [todos, setTodos] = useState<TodoItem[] | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
   const [messageApi, contextHolder] = message.useMessage();
-
 
   const fetchTodos = async () => {
     const res = await otherWebsiteApi.getTodos();
@@ -48,12 +41,12 @@ const TodoDemo = () => {
       fetchTodos();
       messageApi.open({
         type: 'success',
-        content: res.message || '删除成功',
+        content: res.message || '删除成功'
       });
     }
   };
 
-  const handleToggle = async (todo: Todo) => {
+  const handleToggle = async (todo: TodoItem) => {
     const res = await otherWebsiteApi.updateTodo({
       id: todo.id,
       completed: !todo.completed
@@ -81,7 +74,7 @@ const TodoDemo = () => {
 
       <List
         bordered
-        dataSource={todos}
+        dataSource={todos || []}
         renderItem={(todo) => (
           <List.Item
             actions={[

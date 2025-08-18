@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import { BError } from '@/utils/error';
 import type { LoginResponse, UserInfo, UserLoginDTO } from '../../types/myWebsite/user';
 
 const JWT_SECRET = 'your-jwt-secret-key'; // 在实际应用中应该从配置文件中读取
@@ -24,7 +25,7 @@ class UserService {
         userInfo: { ...this.mockUser, token }
       };
     }
-    throw new Error('用户名或密码错误');
+    throw new BError('用户名或密码错误');
   }
 
   async getUserInfo({ userId }: { userId: number }): Promise<UserInfo> {
@@ -32,7 +33,7 @@ class UserService {
     if (userId === this.mockUser.id) {
       return this.mockUser;
     }
-    throw new Error('用户不存在');
+    throw new BError('用户不存在');
   }
 
   private generateToken(user: UserInfo): string {

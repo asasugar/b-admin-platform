@@ -12,22 +12,14 @@ import type { NotFoundMiddlewareOptions } from '@/types';
 export function notFoundMiddleware(_options: NotFoundMiddlewareOptions = {}) {
   // 不再需要 fallbackPath，因为我们动态生成HTML
 
-  return async (ctx: Context, _next: Next) => {
+  return async (ctx: Context, next: Next) => {
     // 设置不缓存
     ctx.set('Cache-Control', 'no-cache, max-age=0, must-revalidate, no-store');
     ctx.set('Pragma', 'no-cache');
     ctx.set('Expires', '0');
 
     const requestPath = ctx.path;
-
-    if (requestPath.startsWith('/api/')) {
-      // 排除 API 路径，避免与前端应用名称冲突
-      ctx.helper.error({
-        message: 'API route not found',
-        code: 404
-      });
-      return;
-    }
+    await next();
 
     // 获取所有前端应用名称
     const portManager = PortManager.getInstance({ printLog: false });
@@ -42,15 +34,21 @@ export function notFoundMiddleware(_options: NotFoundMiddlewareOptions = {}) {
         break;
       }
     }
-
     try {
       ctx.type = 'html';
       if (targetApp) {
         // 如果是前端应用路径，返回对应应用的 index.html
         ctx.body = await generateFrontendIndexHtml();
-      } else {
-        // 动态生成首页HTML，包含所有应用列表
-        ctx.body = await generateBackendIndexHtml(allApps, portManager);
+      } else if (ctx.status === 404) {
+        if (requestPath.startsWith('/api/proxy/')) {
+          ctx.helper.error({
+            message: 'API route not found',
+            code: 404
+          });
+        } else {
+          // 动态生成首页HTML，包含所有应用列表
+          ctx.body = await generateBackendIndexHtml(allApps, portManager);
+        }
       }
     } catch (error) {
       // 如果文件不存在或读取失败，返回404
