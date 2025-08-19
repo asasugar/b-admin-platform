@@ -18,5 +18,8 @@
   },
   "dependencies": {
     "axios": "catalog:"
+  },
+  "peerDependencies": {
+    "antd": "catalog:"
   }
 }

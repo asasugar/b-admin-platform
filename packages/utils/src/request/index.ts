@@ -1,7 +1,8 @@
-import { Modal, message } from 'antd';
+import { Modal } from 'antd';
 import type { AxiosError, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import axios from 'axios';
 import { login } from '../domain';
+import { configureRequest, getMessageApi } from './config';
 import responseHandle from './responseHandle';
 
 // 判断当前环境是否是本地
@@ -57,7 +58,10 @@ axiosInstance.interceptors.response.use(
 
     if (!response.data || response.data.code !== 0) {
       const msg = response.data.statusInfo || response.data.msg || response.data.message;
-      message.error(msg || '请求失败');
+      getMessageApi()?.open({
+        type: 'error',
+        content: msg || '请求失败'
+      });
       return Promise.reject(response.data);
     }
 
@@ -82,7 +86,10 @@ axiosInstance.interceptors.response.use(
           }
         });
       } else {
-        message.error('登录超时');
+        getMessageApi()?.open({
+          type: 'error',
+          content: '登录超时'
+        });
       }
       return Promise.reject(error);
     }
@@ -91,13 +98,19 @@ axiosInstance.interceptors.response.use(
       // node的oapi会把后端信息套一层errorData，egg又会自动把errorData转成JSON字符串，此处进行解析
       const data = JSON.parse(error.response.data.errorData);
       const msg = data.statusInfo || data.msg || data.message;
-      message.error(`${error.response.config.url}请求错误，状态码：${status}，错误信息：${msg}`);
+      getMessageApi()?.open({
+        type: 'error',
+        content: `${error.response.config.url}请求错误，状态码：${status}，错误信息：${msg}`
+      });
     } catch {
-      message.error(`${error.response.config.url}请求错误，状态码：${status}`);
+      getMessageApi()?.open({
+        type: 'error',
+        content: `${error.response.config.url}请求错误，状态码：${status}`
+      });
     }
 
     return Promise.reject(error);
   }
 );
 
-export { axiosInstance, responseHandle };
+export { axiosInstance, responseHandle, configureRequest };

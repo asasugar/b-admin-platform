@@ -1,3 +1,4 @@
+import type { MessageInstance } from 'antd/es/message/interface';
 import type { AxiosResponse } from 'axios';
 
 export type Method = 'get' | 'delete' | 'head' | 'options' | 'post' | 'put' | 'patch';
@@ -10,4 +11,11 @@ export interface BackendResult<T = null> {
   message?: string;
 }
 
-export type BackendResponseHandle = Record<BackendStatus, (response: AxiosResponse) => Promise<BackendResult>>;
+export type BackendResponseHandle = Record<
+  BackendStatus,
+  (response: AxiosResponse) => Promise<BackendResult>
+>;
+
+export interface RequestConfig {
+  messageApi?: MessageInstance;
+}

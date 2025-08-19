@@ -1,6 +1,7 @@
 import { otherWebsiteApi, type TodoItem } from '@b-admin-platform/services';
-import { Button, Form, Input, List, Modal, message, Typography } from 'antd';
+import { Button, Form, Input, List, Modal, Typography } from 'antd';
 import { useEffect, useState } from 'react';
+import { useMessage } from '@/contexts/MessageContext';
 
 const { Title } = Typography;
 
@@ -8,7 +9,7 @@ const TodoDemo = () => {
   const [todos, setTodos] = useState<TodoItem[] | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
-  const [messageApi, contextHolder] = message.useMessage();
+  const messageApi = useMessage();
 
   const fetchTodos = async () => {
     const res = await otherWebsiteApi.getTodos();
@@ -58,7 +59,6 @@ const TodoDemo = () => {
 
   return (
     <div>
-      {contextHolder}
       <div
         style={{
           display: 'flex',
