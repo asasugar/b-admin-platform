@@ -1,52 +1,54 @@
 {
-	"editor.defaultFormatter": "biomejs.biome",
-	"editor.formatOnSave": false,
-	"editor.codeActionsOnSave": {
-		"quickfix.biome": "explicit",
-		"source.fixAll.biome": "explicit",
-		"source.organizeImports.biome": "explicit"
-	},
-	"cSpell.words": [
-		"biomejs",
-		"biome",
-		"formily",
-		"antd",
-		"rsbuild",
-		"axios",
-		"commitlint",
-		"bodyparser",
-		"dotenv",
-		"dotenv-cli",
-		"tsup"
-	],
-	"[javascript]": {
-		"editor.defaultFormatter": "biomejs.biome"
-	},
-	"[typescript]": {
-		"editor.defaultFormatter": "biomejs.biome"
-	},
-	"[typescriptreact]": {
-		"editor.defaultFormatter": "biomejs.biome"
-	},
-	"[javascriptreact]": {
-		"editor.defaultFormatter": "biomejs.biome"
-	},
-	"[css]": {
-		"editor.defaultFormatter": "biomejs.biome"
-	},
-	"[less]": {
-		"editor.defaultFormatter": "biomejs.biome"
-	},
-	"[scss]": {
-		"editor.defaultFormatter": "biomejs.biome"
-	},
-	"[markdown]": {
-		"editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
-	},
-	"[json]": {
-		"editor.defaultFormatter": "vscode.json-language-features"
-	},
-	"[jsonc]": {
-		"editor.defaultFormatter": "biomejs.biome"
-	}
+  "editor.defaultFormatter": "biomejs.biome",
+  "editor.formatOnSave": false,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.biome": "explicit",
+    "source.organizeImports.biome": "explicit"
+  },
+  "cSpell.words": [
+    "biomejs",
+    "biome",
+    "formily",
+    "antd",
+    "rsbuild",
+    "axios",
+    "commitlint",
+    "bodyparser",
+    "dotenv",
+    "dotenv-cli",
+    "tsup"
+  ],
+  "[javascript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[less]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[scss]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[vue]": {
+    "editor.defaultFormatter": "Vue.volar"
+  }
 }
