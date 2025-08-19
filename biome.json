@@ -20,7 +20,7 @@
 	"linter": {
 		"enabled": true,
 		"includes": [
-			"**/*.{ts,tsx,js,jsx,json,md,css,scss,html}"
+			"**/*.{ts,tsx,js,jsx,json,md,scss,html}"
 		],
 		"rules": {
 			"complexity": {

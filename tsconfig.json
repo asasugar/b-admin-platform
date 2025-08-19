@@ -29,6 +29,7 @@
       ]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx"],
+  "types": ["node"],
+  "include": ["**/*.ts", "**/*.tsx", "**/*.vue"],
   "exclude": ["node_modules"]
 }

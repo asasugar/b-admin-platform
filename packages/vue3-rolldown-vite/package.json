@@ -12,17 +12,16 @@
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
-		"clean": "rm -rf node_modules"
+    "clean": "rm -rf node_modules"
   },
   "dependencies": {
-		"@b-admin-platform/build-utils": "workspace:*",
+    "@b-admin-platform/build-utils": "workspace:*",
     "pinia": "^3.0.3",
     "vue": "^3.5.18",
     "vue-router": "^4.5.1"
   },
   "devDependencies": {
     "@tsconfig/node22": "^22.0.2",
-    "@types/node": "^22.16.5",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vitejs/plugin-vue-jsx": "^5.0.1",
     "@vue/tsconfig": "^0.7.0",

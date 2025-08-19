@@ -1,6 +1,12 @@
 <script setup lang="ts">
-  import { RouterLink, RouterView } from "vue-router";
-  import HelloWorld from "./components/HelloWorld.vue";
+import { RouterLink, RouterView } from 'vue-router';
+import HelloWorld from './components/HelloWorld.vue';
+
+console.log(
+  '%c [ process.env.APP ]-5',
+  'font-size:13px; background:pink; color:#bf2c9f;',
+  process.env.APP
+);
 </script>
 
 <template>

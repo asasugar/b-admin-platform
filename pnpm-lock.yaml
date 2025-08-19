@@ -221,7 +221,7 @@ importers:
         specifier: ^22.0.2
         version: 22.0.2
       '@types/node':
-        specifier: ^22.16.5
+        specifier: ^22.17.2
         version: 22.17.2
       '@vitejs/plugin-vue':
         specifier: ^6.0.1
