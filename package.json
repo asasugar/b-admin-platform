@@ -23,7 +23,7 @@
 	},
 	"devDependencies": {
 		"@b-admin-platform/build-utils": "workspace:^",
-		"@biomejs/biome": "^2.1.1",
+		"@biomejs/biome": "^2.2.0",
 		"@changesets/cli": "catalog:",
 		"@commitlint/cli": "catalog:",
 		"@commitlint/config-conventional": "catalog:",
