@@ -1,5 +1,7 @@
-import "./assets/main.css";
+import 'element-plus/es/components/message/style/css';
+import 'element-plus/es/components/notification/style/css';
 
+// import 'element-plus/theme-chalk/src/base.scss'
 import { createPinia } from "pinia";
 import { createApp } from "vue";
 

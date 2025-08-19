@@ -2,20 +2,55 @@ import { fileURLToPath, URL } from 'node:url';
 import { getCurrentFolderName, PortManager } from '@b-admin-platform/build-utils';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
+import AutoImport from 'unplugin-auto-import/vite';
+import IconsResolver from 'unplugin-icons/resolver';
+import Icons from 'unplugin-icons/vite';
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
+import Components from 'unplugin-vue-components/vite';
 import { defineConfig } from 'vite';
+import viteCompression from 'vite-plugin-compression';
 import vueDevTools from 'vite-plugin-vue-devtools';
+import vueSetupExtend from 'vite-plugin-vue-setup-extend';
 
 const APP_NAME = getCurrentFolderName(import.meta.url);
-// 优先使用端口管理器分配的端口，以便于开发时，多个应用可以同时运行端口不冲突
 const port = PortManager.getInstance().getAppPort(APP_NAME) || 5173;
 
-// https://vite.dev/config/
 export default defineConfig({
   base: `/${APP_NAME}/`,
   define: {
     'process.env.APP': JSON.stringify(APP_NAME)
   },
-  plugins: [vue(), vueJsx(), vueDevTools()],
+  plugins: [
+    vue(),
+    vueJsx(),
+    AutoImport({
+      imports: ['vue', 'vue-router', 'pinia'],
+      resolvers: [
+        ElementPlusResolver(),
+        IconsResolver({
+          prefix: 'Icon'
+        })
+      ],
+      dts: 'types/auto-imports.d.ts'
+    }),
+    Components({
+      extensions: ['vue', 'md'],
+      include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
+      resolvers: [
+        IconsResolver({
+          enabledCollections: ['ep']
+        }),
+        ElementPlusResolver()
+      ],
+      dts: 'types/components.d.ts'
+    }),
+    Icons({
+      autoInstall: true
+    }),
+    vueDevTools(),
+    vueSetupExtend(),
+    viteCompression()
+  ],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
@@ -26,8 +61,7 @@ export default defineConfig({
     proxy: {
       '/api': {
         target: 'http://localhost:3000',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '')
+        changeOrigin: true
       }
     }
   }

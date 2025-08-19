@@ -41,7 +41,8 @@
 		"lint-staged": "catalog:",
 		"tsup": "^8.5.0",
 		"turbo": "catalog:",
-		"typescript": "catalog:"
+		"typescript": "catalog:",
+		"volta": "^0.0.0"
 	},
 	"husky": {
 		"hooks": {
