@@ -1,5 +1,5 @@
 {
-  "name": "vue3-rolldown-vite",
+  "name": "@b-admin-platform/frontend/vue3-rolldown-vite",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -11,7 +11,8 @@
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "build-only": "vite build",
-    "type-check": "vue-tsc --build"
+    "type-check": "vue-tsc --build",
+		"clean": "rm -rf node_modules"
   },
   "dependencies": {
     "pinia": "^3.0.3",
