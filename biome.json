@@ -19,6 +19,9 @@
 	},
 	"linter": {
 		"enabled": true,
+		"includes": [
+			"**/*.{ts,tsx,js,jsx,json,md,css,scss,html}"
+		],
 		"rules": {
 			"complexity": {
 				"noUselessEscapeInRegex": "off"
