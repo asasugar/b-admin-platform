@@ -57,8 +57,8 @@ function discoverAppsFromPackages(): string[] {
  */
 export const defaultAppsConfig: AppConfig[] = [
   {
-    name: 'demo',
-    path: '/demo',
+    name: 'react19',
+    path: '/react19',
     staticPrefix: '/static/',
     enabled: true
   }
@@ -89,12 +89,12 @@ export function getDefaultApp(): string {
   const enabledApps = getEnabledApps();
 
   // 优先顺序：
-  // 1. 如果配置中有 'demo' 应用，使用 'demo'
+  // 1. 如果配置中有 'react19' 应用，使用 'react19'
   // 2. 否则使用第一个启用的应用
-  // 3. 最后回退到 'demo'
-  if (enabledApps.includes('demo')) {
-    return 'demo';
+  // 3. 最后回退到 'react19'
+  if (enabledApps.includes('react19')) {
+    return 'react19';
   }
 
-  return enabledApps.length > 0 ? enabledApps[0] : 'demo';
+  return enabledApps.length > 0 ? enabledApps[0] : 'react19';
 }

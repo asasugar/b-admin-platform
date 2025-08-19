@@ -30,7 +30,7 @@ LOG_ROOT=$NODE_ROOT/logs/$PROJECT_NAME
 REGISTRY="https://registry.npmjs.org"
 # 兼容性处理：将 APP_NAME 转换为小写
 # APP=${APP_NAME,,}
-APP="demo" # 调试的时候写死
+APP="react19" # 调试的时候写死
 
 # 显示环境信息
 print_env_info "$env" "$PROJECT_NAME" "$PROJECT_ROOT" "$NODE_ROOT" "$LOG_ROOT" "$APP"

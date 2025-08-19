@@ -13,6 +13,7 @@
 		"start:local": "pnpm build && cross-env NODE_ENV=production turbo run start --filter @b-admin-platform/backend",
 		"start:prod": "cross-env NODE_ENV=production turbo run start --filter @b-admin-platform/backend",
 		"clean": "turbo run clean && rm -rf node_modules",
+		"clean:store": "pnpm store prune",
 		"format": "pnpm exec turbo run format --force",
 		"lint": "pnpm exec turbo run lint --force",
 		"check": "pnpm exec turbo run check --force",

@@ -29,7 +29,7 @@ export function generateFrontendIndexHtml(): string {
  */
 function getAppIcon(appName: string): string {
   const iconMap: Record<string, string> = {
-    demo: '📊',
+    react19: '📊',
     admin: '⚙️',
     dashboard: '📈',
     user: '👥',

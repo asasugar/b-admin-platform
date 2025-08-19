@@ -27,7 +27,7 @@
 b-admin-platform/
 ├── apps/                    # 应用部署目录（预留）
 ├── packages/               # 包目录
-│   ├── demo/              # 演示系统
+│   ├── react19/              # 演示系统
 │   │   ├── src/
 │   │   │   ├── pages/     # 页面组件
 │   │   │   ├── router/    # 路由配置

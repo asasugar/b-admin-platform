@@ -20,6 +20,6 @@
     "axios": "catalog:"
   },
   "peerDependencies": {
-    "antd": "catalog:"
+    "antd": "^5.26.4"
   }
 }

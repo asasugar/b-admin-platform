@@ -27,7 +27,7 @@ export function notFoundMiddleware(_options: NotFoundMiddlewareOptions = {}) {
     // 检查请求路径是否属于某个前端应用
     let targetApp: string | null = null;
 
-    // 匹配应用路径，如 /demo/xxx, /demo1/xxx
+    // 匹配应用路径，如 /react19/xxx, /vue3/xxx
     for (const appName of allApps) {
       if (requestPath.startsWith(`/${appName}/`) || requestPath === `/${appName}`) {
         targetApp = appName;

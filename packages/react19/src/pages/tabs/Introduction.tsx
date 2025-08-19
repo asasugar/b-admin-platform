@@ -36,7 +36,7 @@ const Introduction = () => {
           <strong>packages/utils</strong> - 通用工具库，包含请求封装等
         </List.Item>
         <List.Item>
-          <strong>packages/demo</strong> - 示例应用，展示各种功能
+          <strong>packages/react19</strong> - 示例应用，展示各种功能
         </List.Item>
       </List>
 
