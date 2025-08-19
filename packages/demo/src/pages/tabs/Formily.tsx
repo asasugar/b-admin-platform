@@ -15,11 +15,95 @@ import {
   Submit
 } from '@formily/antd-v5';
 import { createForm } from '@formily/core';
-import { Field } from '@formily/react';
-import { Card, message, Space, Table } from 'antd';
+import { createSchemaField } from '@formily/react';
+import { Card, Space, Table } from 'antd';
 import { useState } from 'react';
+import { useMessage } from '@/contexts/MessageContext';
 
-// 创建表单，设置默认值和验证规则
+// 创建 SchemaField 组件
+const SchemaField = createSchemaField({
+  components: {
+    FormItem,
+    FormGrid,
+    Input,
+    NumberPicker,
+    Select
+  }
+});
+
+// 表单 Schema 定义
+const schema = {
+  type: 'object',
+  properties: {
+    layout: {
+      type: 'void',
+      'x-component': 'FormGrid',
+      'x-component-props': {
+        maxColumns: 4,
+        minColumns: 2,
+        columnGap: 16,
+        rowGap: 16
+      },
+      properties: {
+        status: {
+          type: 'number',
+          title: '状态',
+          required: true,
+          'x-decorator': 'FormItem',
+          'x-component': 'Select',
+          'x-component-props': {
+            numberValue: true
+          },
+          enum: [
+            { label: '正常', value: 1 },
+            { label: '禁用', value: 0 }
+          ]
+        },
+        name: {
+          type: 'string',
+          title: '姓名',
+          'x-decorator': 'FormItem',
+          'x-component': 'Input',
+          'x-component-props': {
+            placeholder: '请输入姓名'
+          },
+          'x-validator': {
+            max: 20,
+            message: '姓名不能超过20个字符'
+          }
+        },
+        age: {
+          type: 'number',
+          title: '年龄',
+          'x-decorator': 'FormItem',
+          'x-component': 'NumberPicker',
+          'x-component-props': {
+            placeholder: '请输入年龄'
+          },
+          'x-validator': {
+            minimum: 0,
+            maximum: 150,
+            message: '年龄必须在0-150岁之间'
+          }
+        },
+        address: {
+          type: 'string',
+          title: '地址',
+          'x-decorator': 'FormItem',
+          'x-component': 'Input',
+          'x-component-props': {
+            placeholder: '请输入地址'
+          },
+          'x-validator': {
+            max: 100,
+            message: '地址不能超过100个字符'
+          }
+        }
+      }
+    }
+  }
+};
+
 const form = createForm({
   initialValues: {
     status: 1,
@@ -38,20 +122,25 @@ const statusOptions = [
 const FormilyDemo = () => {
   const [tableData, setTableData] = useState<FormilyUserItem[]>([]);
   const [total, setTotal] = useState(0);
-
+  const messageApi = useMessage();
   const handleSubmit = async (values: FormilyUserQueryParams) => {
     try {
       const res = await formilyApi.getUsers(values);
       if (res.code !== 0) {
-        message.error(res.message);
+        messageApi.open({
+          type: 'error',
+          content: res.message,
+        });
         return;
       }
       const { list, total } = res.data || { list: [], total: 0 };
       setTableData(list);
       setTotal(total);
-      message.success(`查询成功，共找到 ${total} 条数据`);
+      messageApi.open({
+        type: 'success',
+        content: `查询成功，共找到 ${total} 条数据`,
+      });
     } catch (error) {
-      // 错误已经被请求拦截器处理，这里可以添加额外的错误处理逻辑
       console.error('查询失败:', error);
     }
   };
@@ -70,56 +159,18 @@ const FormilyDemo = () => {
         onAutoSubmit={handleSubmit}
         onAutoSubmitFailed={(errors) => {
           console.error('表单验证失败:', errors);
-          message.error('请检查表单填写是否正确');
+          messageApi.open({
+            type: 'error',
+            content: '请检查表单填写是否正确'
+          });
         }}>
-        <FormGrid maxColumns={4} minColumns={2} columnGap={16} rowGap={16}>
-          <Field
-            name='status'
-            title='状态'
-            required
-            decorator={[FormItem]}
-            component={[Select, { numberValue: true }]}
-            dataSource={statusOptions}
-          />
-          <Field
-            name='name'
-            title='姓名'
-            required
-            decorator={[FormItem]}
-            component={[Input]}
-            validator={{
-              max: 20,
-              message: '姓名不能超过20个字符'
-            }}
-          />
-          <Field
-            name='age'
-            title='年龄'
-            decorator={[FormItem]}
-            component={[NumberPicker]}
-            validator={{
-              minimum: 0,
-              maximum: 150,
-              message: '年龄必须在0-150岁之间'
-            }}
-          />
-          <Field
-            name='address'
-            title='地址'
-            decorator={[FormItem]}
-            component={[Input]}
-            validator={{
-              max: 100,
-              message: '地址不能超过100个字符'
-            }}
-          />
-          <FormButtonGroup.FormItem>
-            <Space>
-              <Submit loading={form.submitting}>查询</Submit>
-              <Reset onClick={handleReset}>重置</Reset>
-            </Space>
-          </FormButtonGroup.FormItem>
-        </FormGrid>
+        <SchemaField schema={schema} />
+        <FormButtonGroup.FormItem>
+          <Space>
+            <Submit loading={form.submitting}>查询</Submit>
+            <Reset onClick={handleReset}>重置</Reset>
+          </Space>
+        </FormButtonGroup.FormItem>
 
         {/* 查询结果表格 */}
         <div style={{ marginTop: 16 }}>
