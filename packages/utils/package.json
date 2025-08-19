@@ -2,8 +2,15 @@
   "name": "@b-admin-platform/utils",
   "version": "1.0.0",
   "private": true,
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
     "watch": "cross-env NODE_ENV=development tsup --watch",
@@ -12,9 +19,6 @@
     "lint": "pnpm exec biome lint --write ./src",
     "check": "pnpm exec biome check --write ./src",
     "format": "pnpm exec biome format --write ./src"
-  },
-  "devDependencies": {
-    "tsup": "catalog:"
   },
   "dependencies": {
     "axios": "catalog:"

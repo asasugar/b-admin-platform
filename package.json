@@ -34,10 +34,12 @@
 		"@types/react": "catalog:",
 		"@types/react-dom": "catalog:",
 		"cross-env": "catalog:",
+		"deepmerge": "catalog:",
 		"dotenv": "catalog:",
 		"dotenv-cli": "catalog:",
 		"husky": "catalog:",
 		"lint-staged": "catalog:",
+		"tsup": "^8.5.0",
 		"turbo": "catalog:",
 		"typescript": "catalog:"
 	},

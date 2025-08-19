@@ -2,18 +2,22 @@
   "name": "@b-admin-platform/build-utils",
   "version": "1.0.0",
   "private": true,
-  "main": "./dist/index.cjs.js",
-  "module": "./dist/index.esm.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "watch": "tsup --watch",
-    "build": "tsup",
+    "watch": "cross-env NODE_ENV=development tsup --watch",
+    "build": "cross-env NODE_ENV=production tsup",
 		"clean": "rm -rf node_modules",
     "lint": "pnpm exec biome lint --write ./src",
     "check": "pnpm exec biome check --write ./src",
     "format": "pnpm exec biome format --write ./src"
-  },
-  "devDependencies": {
-    "tsup": "catalog:"
   }
 }
