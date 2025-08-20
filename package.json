@@ -30,6 +30,7 @@
 		"@rsbuild/core": "catalog:",
 		"@rsbuild/plugin-less": "catalog:",
 		"@rsbuild/plugin-vue": "catalog:",
+		"@rsbuild/plugin-vue-jsx": "^1.1.1",
 		"@types/node": "catalog:",
 		"@types/react": "catalog:",
 		"@types/react-dom": "catalog:",

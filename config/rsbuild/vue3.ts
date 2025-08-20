@@ -1,31 +1,21 @@
 import { mergeRsbuildConfig } from '@rsbuild/core';
 import { pluginVue } from '@rsbuild/plugin-vue';
-import type { ChildConfigOptions } from './types';
+import { pluginVueJsx } from '@rsbuild/plugin-vue-jsx';
 import { getBaseConfig } from './base';
+import type { ChildConfigOptions } from './types';
 
-export const getVue3Config = ({ name, port }: ChildConfigOptions) => {
-  const baseConfig = getBaseConfig();
+export const getVue3Config = ({ name, port, root }: ChildConfigOptions) => {
+  const baseConfig = getBaseConfig({ root, name, port });
 
   return mergeRsbuildConfig(baseConfig, {
     html: {
-      title: name,
+      title: name || 'Vue 系统'
     },
     source: {
       entry: {
-        index: './src/main.ts',
-      },
+        index: './src/main.ts'
+      }
     },
-    plugins: [
-      pluginVue()
-    ],
-    server: {
-      port,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-      },
-    },
-    dev: {
-      assetPrefix: `http://localhost:${port}/`,
-    },
+    plugins: [pluginVue(), pluginVueJsx()]
   });
 };
