@@ -1,16 +1,17 @@
-import type { BackendResult, BackendStatus, Method } from '@b-admin-platform/utils';
-import { axiosInstance, responseHandle } from '@b-admin-platform/utils';
-import type { AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios';
+import type { CustomAxiosResponse, Method, RequestConfig } from '@b-admin-platform/utils';
+import { axiosInstance } from '@b-admin-platform/utils';
+
+/**
+ * api接口inject
+ * @param url {string} 请求接口链接
+ * @param method {Method} 请求方式:默认 post
+ */
 export default function inject<
-  R,
+  T = any,
   D extends Record<string, any> = Record<string, any>,
-  O extends AxiosRequestConfig<any> | undefined = undefined
+  K extends RequestConfig = RequestConfig
 >(url: string, method: Method = 'post') {
-  return async (data?: D, options?: O): Promise<BackendResult<R | null>> => {
-    const response = await axiosInstance[method](url, { data, ...options } as Partial<
-      D & InternalAxiosRequestConfig
-    >);
-    const status = response.status as BackendStatus;
-    return responseHandle[status]?.(response) || Promise.reject(response.data);
+  return async (data?: D, options?: K): Promise<CustomAxiosResponse<T | null>> => {
+    return axiosInstance[method](url, { data, ...options });
   };
 }

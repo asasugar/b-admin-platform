@@ -101,22 +101,39 @@ function createProxy(ctx: Context, proxyInfo: ProxyInfo) {
 
         // 获取响应体
         const chunks: Buffer[] = [];
+        // 检查响应类型
+        const contentType = proxyRes.headers['content-type'] || '';
+        const isBinaryContent =
+          contentType.includes('application/octet-stream') ||
+          contentType.includes('image/') ||
+          contentType.includes('video/') ||
+          contentType.includes('audio/') ||
+          contentType.includes('application/x-download') ||
+          contentType.includes('application/pdf');
+
         proxyRes.on('data', (chunk: Buffer) => {
-          chunks.push(chunk);
+          if (!isBinaryContent) {
+            chunks.push(chunk);
+          }
         });
 
         proxyRes.on('end', () => {
-          const buffer = Buffer.concat(chunks);
-          const responseBody = buffer.toString();
-          try {
-            proxyLogInfo.responseBody =
-              typeof responseBody === 'string' && responseBody.startsWith('{')
-                ? JSON.parse(responseBody)
-                : responseBody;
-          } catch (err) {
-            console.error('Failed to parse response body:', err);
-            // 如果解析失败，返回原始字符串
-            proxyLogInfo.responseBody = responseBody;
+          // 只有非二进制内容才记录响应体
+          if (!isBinaryContent) {
+            const buffer = Buffer.concat(chunks);
+            const responseBody = buffer.toString();
+            try {
+              proxyLogInfo.responseBody =
+                typeof responseBody === 'string' && responseBody.startsWith('{')
+                  ? JSON.parse(responseBody)
+                  : responseBody;
+            } catch (err) {
+              console.error('Failed to parse response body:', err);
+              // 如果解析失败，返回原始字符串
+              proxyLogInfo.responseBody = responseBody;
+            }
+          } else {
+            proxyLogInfo.responseBody = '[Binary Content]';
           }
 
           cmdLogger.proxy(proxyLogInfo as LoggerProxyInfo);

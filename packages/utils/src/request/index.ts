@@ -1,16 +1,12 @@
-import { Modal } from 'antd';
-import type { AxiosError, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import type { AxiosError, AxiosResponse } from 'axios';
 import axios from 'axios';
-import { login } from '../domain';
-import { configureRequest, getMessageApi } from './config';
+import { configureRequest } from './config';
 import responseHandle from './responseHandle';
+import type { BackendErrorStatus, RequestConfig } from './types';
 
-// 判断当前环境是否是本地
-const IS_LOCAL = ['localhost', '127.0.0.1'].includes(location.hostname);
-
-const axiosInstance: AxiosInstance = axios.create({
+const axiosInstance = axios.create({
   baseURL: '',
-  timeout: 5000,
+  timeout: 10000,
   headers: {
     'content-type': 'application/json'
   }
@@ -18,7 +14,7 @@ const axiosInstance: AxiosInstance = axios.create({
 
 // 添加请求拦截器
 axiosInstance.interceptors.request.use(
-  (config: InternalAxiosRequestConfig) => {
+  (config) => {
     if (
       config?.method?.toLocaleLowerCase() === 'post' ||
       config?.method?.toLocaleLowerCase() === 'put'
@@ -31,13 +27,8 @@ axiosInstance.interceptors.request.use(
     ) {
       // 参数统一处理
       config.params = config.data;
-      console.log(
-        '%c [ config.params ]-40',
-        'font-size:13px; background:pink; color:#bf2c9f;',
-        config
-      );
     } else {
-      return Promise.reject(new Error(`不允许的请求方法：${config.method}`));
+      throw new Error(`不允许的请求方法：${config.method}`);
     }
     return config;
   },
@@ -48,69 +39,45 @@ axiosInstance.interceptors.request.use(
 
 // 添加响应拦截器
 axiosInstance.interceptors.response.use(
-  (response: AxiosResponse) => {
-    const config = response.config;
-    // 2xx的状态码走这里
-    // 不拦截
-    if ((config as any).disableInterceptResponse) {
+  async (response: AxiosResponse) => {
+    const { config, status }: { config: RequestConfig; status: number } = response;
+
+    // 自定义配置 disableInterceptResponse 则不拦截
+    if (config.disableInterceptResponse) {
       return response;
     }
 
-    if (!response.data || response.data.code !== 0) {
-      const msg = response.data.statusInfo || response.data.msg || response.data.message;
-      getMessageApi()?.open({
-        type: 'error',
-        content: msg || '请求失败'
-      });
-      return Promise.reject(response.data);
+    // 如果状态码不是 2xx，抛出错误让错误处理器处理
+    if (status < 200 || status >= 300) {
+      throw response;
     }
 
-    return response;
+    // 使用通用的成功响应处理
+    if (responseHandle.success) {
+      return await responseHandle.success(response);
+    }
+
+    // 如果没有任何处理函数，直接返回响应数据
+    return response.data;
   },
-  (error) => {
+  async (error) => {
     // 非2xx的状态码会走这里
+    const { status }: { status: BackendErrorStatus } = error.response;
 
-    const { status } = error.response;
-    const notLogin302 = status === 302 && error.response.data === '未登录';
-
-    if (status === 401 || status === 403 || notLogin302) {
-      // 本地开发环境不做验证
-      if (!IS_LOCAL) {
-        Modal.warning({
-          title: '提示',
-          content: '检测到您无权限或当前登录已过期，是否跳转重新登录？',
-          okText: '去登录',
-          cancelText: '取消',
-          onOk() {
-            location.href = login();
-          }
-        });
-      } else {
-        getMessageApi()?.open({
-          type: 'error',
-          content: '登录超时'
-        });
-      }
-      return Promise.reject(error);
+    // 尝试使用 responseHandle 处理错误状态码
+    // 如果是已定义的状态码，使用对应的处理函数
+    if (responseHandle[status]) {
+      return await responseHandle[status](error.response);
     }
 
-    try {
-      // node的oapi会把后端信息套一层errorData，egg又会自动把errorData转成JSON字符串，此处进行解析
-      const data = JSON.parse(error.response.data.errorData);
-      const msg = data.statusInfo || data.msg || data.message;
-      getMessageApi()?.open({
-        type: 'error',
-        content: `${error.response.config.url}请求错误，状态码：${status}，错误信息：${msg}`
-      });
-    } catch {
-      getMessageApi()?.open({
-        type: 'error',
-        content: `${error.response.config.url}请求错误，状态码：${status}`
-      });
+    // 使用默认的错误处理
+    if (responseHandle.errorDefault) {
+      await responseHandle.errorDefault(error.response);
     }
 
-    return Promise.reject(error);
+    // 如果没有任何处理函数处理，则直接抛出原始错误
+    throw error;
   }
 );
 
-export { axiosInstance, responseHandle, configureRequest };
+export { axiosInstance, configureRequest };
