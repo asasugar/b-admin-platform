@@ -7,7 +7,7 @@
 		"dev": "cross-env NODE_ENV=development turbo run dev",
 		"stop": "turbo run build --filter @b-admin-platform/build-utils >/dev/null 2>&1 && dotenv -- tsx scripts/stop-ports.ts",
 		"dev:app": "pnpm stop && dotenv -- sh -c 'cross-env NODE_ENV=development turbo run dev --filter @b-admin-platform/backend --filter \"@b-admin-platform/frontend/$APP\"'",
-		"dev:all": "pnpm stop && cross-env NODE_ENV=development turbo run dev --filter @b-admin-platform/backend --filter \"@b-admin-platform/frontend/*\"",
+		"dev:apps": "pnpm stop && cross-env NODE_ENV=development turbo run dev --filter @b-admin-platform/backend --filter \"@b-admin-platform/frontend/*\"",
 		"build": "turbo run build",
 		"build:app": "dotenv -- sh -c 'turbo run build --filter \"@b-admin-platform/frontend/$APP\"'",
 		"start:local": "pnpm build && cross-env NODE_ENV=production turbo run start --filter @b-admin-platform/backend",

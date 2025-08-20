@@ -5,5 +5,5 @@ const APP_NAME = getCurrentFolderName(import.meta.url);
 
 export default getReactConfig({
   name: APP_NAME,
-  root: `../../apps/${APP_NAME}`
+  outputDir: `../../apps/${APP_NAME}`
 });
