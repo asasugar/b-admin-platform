@@ -29,9 +29,6 @@ export const getBaseConfig = ({ outputDir, name, port }: ChildConfigOptions) => 
       assetPrefix: `http://localhost:${port}/${name}`
     },
     plugins: [pluginLess()],
-    html: {
-      // 通过 tools.htmlPlugin 来配置动态模板
-    },
     output: {
       cleanDistPath: true,
       distPath: {

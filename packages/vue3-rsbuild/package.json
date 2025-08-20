@@ -1,11 +1,8 @@
 {
   "name": "@b-admin-platform/frontend/vue3-rsbuild",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "type": "module",
-  "engines": {
-    "node": "^20.19.0 || >=22.12.0"
-  },
   "scripts": {
     "dev": "rsbuild dev",
     "preview": "rsbuild preview",
@@ -42,7 +39,6 @@
     "typescript": "~5.8.0",
     "unplugin-auto-import": "^20.0.0",
     "unplugin-icons": "^22.2.0",
-    "unplugin-vue-components": "^29.0.0",
-    "vue-tsc": "^3.0.4"
+    "unplugin-vue-components": "^29.0.0"
   }
 }

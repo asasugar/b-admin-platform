@@ -40,6 +40,7 @@ export function notFoundMiddleware(_options: NotFoundMiddlewareOptions = {}) {
         // 如果是前端应用路径，返回对应应用的 index.html
         ctx.body = await generateFrontendIndexHtml();
       } else if (ctx.status === 404) {
+        // 如果请求路径是 API 代理路径，返回 404 错误
         if (requestPath.startsWith('/api/proxy/')) {
           ctx.helper.error({
             message: 'API route not found',

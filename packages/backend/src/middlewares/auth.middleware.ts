@@ -105,7 +105,6 @@ export async function authMiddleware(options?: AdminAuthOptions) {
           });
         }
       } else if (!cookieId && config.mockLogin?.enabled) {
-        console.log('%c [ cookieId ]-108', 'font-size:13px; background:pink; color:#bf2c9f;', ctx, ctx.path, ctx.status, ctx.statusCode);
         // 处理无cookie情况
         try {
           cookieId = await startMockLogin(ctx, config as AdminAuthOptions);
@@ -117,12 +116,10 @@ export async function authMiddleware(options?: AdminAuthOptions) {
           }
         } catch (error: unknown) {
           const errorMessage = error instanceof Error ? error.message : String(error);
-          console.log('%c [ errorMessage ]-120', 'font-size:13px; background:pink; color:#bf2c9f;', errorMessage)
-          // return ctx.helper.error({
-          //   message: errorMessage,
-          //   code: 303
-          // });
-          return;
+          return ctx.helper.error({
+            message: errorMessage,
+            code: 303
+          });
         }
       }
 
