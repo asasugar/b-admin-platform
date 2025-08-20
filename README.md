@@ -112,9 +112,8 @@ b-admin-platform/
 │       ├── tsconfig.json
 │       └── tsup.config.ts # 构建配置
 ├── config/               # 全局配置目录
-│   ├── biome/           # Biome 配置
-│   │   ├── base.json    # 基础配置
-│   │   └── react.json   # React 配置
+│   ├── tsup/            # tsup 配置
+│   │   └── config.ts    # 基础配置
 │   ├── rsbuild/         # Rsbuild 构建配置
 │   │   ├── base.ts      # 基础配置
 │   │   ├── react.ts     # React 配置
