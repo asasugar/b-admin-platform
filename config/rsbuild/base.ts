@@ -1,4 +1,5 @@
 import path from 'node:path';
+import { fileURLToPath, URL } from 'node:url';
 import { generateFrontendIndexHtml, PortManager } from '@b-admin-platform/build-utils';
 import { defineConfig } from '@rsbuild/core';
 import { pluginLess } from '@rsbuild/plugin-less';
@@ -53,7 +54,10 @@ export const getBaseConfig = ({ root, name, port }: ChildConfigOptions) => {
       }
     },
     resolve: {
-      extensions: ['.ts', '.tsx', '.vue', '.js', '.jsx']
+      extensions: ['.ts', '.tsx', '.vue', '.js', '.jsx'],
+      alias: {
+        '@': fileURLToPath(new URL(path.resolve(process.cwd(), './src'), import.meta.url))
+      }
     },
     tools: {
       cssLoader: {

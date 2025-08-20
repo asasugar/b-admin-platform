@@ -34,8 +34,6 @@ export default defineConfig({
       dts: 'types/auto-imports.d.ts'
     }),
     Components({
-      extensions: ['vue', 'md'],
-      include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
       resolvers: [
         IconsResolver({
           enabledCollections: ['ep']
