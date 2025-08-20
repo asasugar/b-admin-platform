@@ -34,9 +34,116 @@
 - TypeScript
 - ESM 模块系统
 
-## Node.js 版本要求
+## 项目结构
 
-不同子包对 Node.js 版本有不同要求：
+```tree
+b-admin-platform/
+├── apps/                    # 应用部署目录（预留）
+├── packages/               # 包目录
+│   ├── react19/              # React 19 演示系统
+│   │   ├── src/
+│   │   │   ├── pages/     # 页面组件
+│   │   │   ├── router/    # 路由配置
+│   │   │   ├── services/  # 接口服务
+│   │   │   └── utils/     # 工具函数
+│   │   ├── index.html
+│   │   ├── package.json
+│   │   ├── rsbuild.config.ts
+│   │   └── tsconfig.json
+│   ├── vue3-rolldown-vite/   # Vue3 rolldown-vite 演示系统
+│   │   ├── src/
+│   │   │   ├── views/     # 页面组件
+│   │   │   │   └── tabs/  # 标签页组件
+│   │   │   ├── router/    # 路由配置
+│   │   │   ├── stores/    # 状态管理
+│   │   │   └── assets/    # 静态资源
+│   │   ├── index.html
+│   │   ├── package.json
+│   │   ├── vite.config.ts
+│   │   └── tsconfig.json
+│   ├── vue3-rsbuild/        # Vue3 rsbuild 演示系统
+│   │   ├── src/
+│   │   │   ├── views/     # 页面组件
+│   │   │   │   └── Home/  # 首页组件
+│   │   │   │       └── components/ # 子组件
+│   │   │   ├── router/    # 路由配置
+│   │   │   ├── stores/    # 状态管理
+│   │   │   └── assets/    # 静态资源
+│   │   ├── index.html
+│   │   ├── package.json
+│   │   ├── rsbuild.config.ts
+│   │   └── tsconfig.json
+│
+│   ├── backend/           # 后端服务
+│   │   ├── src/
+│   │   │   ├── controllers/  # 控制器
+│   │   │   ├── middlewares/  # 中间件
+│   │   │   │   ├── auth.middleware.ts    # 认证中间件
+│   │   │   │   ├── helper.middleware.ts  # 辅助函数中间件
+│   │   │   │   ├── notFound.middleware.ts # 404处理中间件
+│   │   │   │   └── proxy.middleware.ts   # 代理中间件
+│   │   │   ├── routes/       # 路由定义
+│   │   │   ├── types/        # 类型定义
+│   │   │   ├── utils/        # 工具函数
+│   │   │   │   ├── logger/   # 日志工具
+│   │   │   │   │   ├── config.ts      # 日志配置
+│   │   │   │   │   ├── dateUtils.ts   # 日期工具
+│   │   │   │   │   ├── index.ts       # 日志主文件
+│   │   │   │   │   └── types.ts       # 日志类型
+│   │   │   │   └── proxy.ts           # 代理工具
+│   │   │   ├── app.ts        # 应用主文件
+│   │   │   └── server.ts     # 服务器启动文件
+│   │   ├── logs/         # 日志文件目录
+│   │   ├── public/       # 静态资源
+│   │   ├── package.json
+│   │   └── tsconfig.json
+│   ├── services/         # 共享服务包
+│   │   ├── src/          # 源码目录
+│   │   ├── dist/         # 构建输出
+│   │   ├── package.json
+│   │   ├── tsconfig.json
+│   │   └── tsup.config.ts # 构建配置
+│   └── utils/            # 共享工具包
+│       ├── src/          # 源码目录
+│       ├── dist/         # 构建输出
+│       ├── package.json
+│       ├── tsconfig.json
+│       └── tsup.config.ts # 构建配置
+├── config/               # 全局配置目录
+│   ├── biome/           # Biome 配置
+│   │   ├── base.json    # 基础配置
+│   │   └── react.json   # React 配置
+│   ├── rsbuild/         # Rsbuild 构建配置
+│   │   ├── base.ts      # 基础配置
+│   │   ├── react.ts     # React 配置
+│   │   ├── vue3.ts      # Vue3 配置
+│   │   └── types.ts     # 类型定义
+│   ├── server/          # 服务器配置
+│   │   ├── default.ts   # 默认配置
+│   │   ├── local.ts     # 本地环境
+│   │   ├── pre.ts       # 预发环境
+│   │   ├── prod.ts      # 生产环境
+│   │   ├── test3.ts     # 测试环境3
+│   │   ├── test4.ts     # 测试环境4
+│   │   └── types.ts     # 类型定义
+│   └── typescript/      # TypeScript 配置
+│       ├── base.json    # 基础配置
+│       ├── react.json   # React 配置
+│       └── vue.json     # Vue 配置
+├── scripts/             # 工具脚本
+│   └── stop-ports.ts   # 停止端口占用脚本
+├── bin/                 # 二进制文件目录
+├── .changeset/         # Changeset 配置
+├── .husky/             # Git hooks 配置
+├── .vscode/            # VSCode 配置
+├── .turbo/             # Turborepo 缓存
+├── biome.json         # Biome 配置文件
+├── package.json       # 工作空间配置
+├── pnpm-workspace.yaml # pnpm 工作空间配置
+├── pnpm-lock.yaml     # pnpm 锁定文件
+├── tsconfig.json      # TypeScript 配置
+└── turbo.json        # Turborepo 配置
+```
 
 ## 开发环境
 
@@ -57,7 +164,7 @@ pnpm install
 ```bash
 # 启动特定应用
 pnpm dev:app # 只启动 .env 文件下配置的 APP 服务 和 backend 服务
-pnpm dev:all # 启动 backend 和 所有 前端 APP 服务
+pnpm dev:apps # 启动 backend 和 所有 前端 APP 服务
 
 # 启动所有服务
 pnpm dev
@@ -106,6 +213,21 @@ React 19 演示系统，使用 Rsbuild 构建，集成了：
 ### vue3-rolldown-vite
 
 Vue 3 演示系统，使用 Rolldown-Vite 构建，集成了：
+
+- Element Plus 组件库
+- Pinia 状态管理
+- 自动导入组件和API
+- 接口代理演示
+
+注意事项：
+
+1. 开发时需要同时启动后端服务
+2. 组件和API自动导入功能由 unplugin-auto-import 和 unplugin-vue-components 提供
+3. 使用 Element Plus 组件库，支持按需加载
+
+### vue3-rsbuild
+
+Vue 3 演示系统，使用 Rsbuild 构建，集成了：
 
 - Element Plus 组件库
 - Pinia 状态管理
