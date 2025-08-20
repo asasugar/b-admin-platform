@@ -2,8 +2,8 @@ import { mergeRsbuildConfig } from '@rsbuild/core';
 import { pluginReact } from '@rsbuild/plugin-react';
 import { getBaseConfig } from './base';
 import type { ChildConfigOptions } from './types';
-export const getReactConfig = ({ name, root, port }: ChildConfigOptions) => {
-  const baseConfig = getBaseConfig({ root, name, port });
+export const getReactConfig = ({ name, outputDir, port }: ChildConfigOptions) => {
+  const baseConfig = getBaseConfig({ outputDir, name, port });
 
   return mergeRsbuildConfig(baseConfig, {
     html: {

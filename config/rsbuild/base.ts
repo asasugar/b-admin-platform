@@ -5,10 +5,10 @@ import { defineConfig } from '@rsbuild/core';
 import { pluginLess } from '@rsbuild/plugin-less';
 import type { ChildConfigOptions } from './types';
 
-export const getBaseConfig = ({ root, name, port }: ChildConfigOptions) => {
+export const getBaseConfig = ({ outputDir, name, port }: ChildConfigOptions) => {
   // 优先使用端口管理器分配的端口，以便于开发时，多个应用可以同时运行端口不冲突
   port = PortManager.getInstance().getAppPort(name) || port;
-  const outputDir = getOutputDir(root);
+  const root = getOutputDir(outputDir);
 
   return defineConfig({
     server: {
@@ -35,7 +35,7 @@ export const getBaseConfig = ({ root, name, port }: ChildConfigOptions) => {
     output: {
       cleanDistPath: true,
       distPath: {
-        root: outputDir
+        root
       },
       copy: [
         {

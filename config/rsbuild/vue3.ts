@@ -4,8 +4,8 @@ import { pluginVueJsx } from '@rsbuild/plugin-vue-jsx';
 import { getBaseConfig } from './base';
 import type { ChildConfigOptions } from './types';
 
-export const getVue3Config = ({ name, port, root }: ChildConfigOptions) => {
-  const baseConfig = getBaseConfig({ root, name, port });
+export const getVue3Config = ({ name, port, outputDir }: ChildConfigOptions) => {
+  const baseConfig = getBaseConfig({ outputDir, name, port });
 
   return mergeRsbuildConfig(baseConfig, {
     html: {

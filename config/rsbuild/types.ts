@@ -1,5 +1,5 @@
 export interface ChildConfigOptions {
   name: string;
-  root: string;
+  outputDir: string;
   port?: number;
 }
