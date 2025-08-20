@@ -9,8 +9,10 @@
 - backend: >= 18.0.0
 - react19: >= 18.0.0
 - vue3-rolldown-vite: >= 22.0.0（由于使用了 Rolldown-Vite，必须使用 Node.js 22 版本）
+- vue3-rsbuild: >= 18.0.0
 - services: >= 18.0.0
 - utils: >= 18.0.0
+- build-utils: >= 18.0.0
 
 推荐使用 Node.js 22 LTS 版本进行开发，以确保所有子包都能正常运行。如果使用较低版本可能会遇到构建错误或其他兼容性问题。
 
