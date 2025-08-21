@@ -14,8 +14,7 @@ const app = new Koa();
 
 // 基础中间件
 app.use(helperMiddleware()); // 帮助函数中间件
-// 404 中间件
-app.use(notFoundMiddleware());
+
 
 // 代理中间件
 // Please make sure that `koa-proxies` is in front of `koa-bodyparser` to avoid this [issue 55](https://github.com/vagusX/koa-proxies/issues/55)
@@ -43,4 +42,6 @@ if (process.env.NODE_ENV === 'production') {
   app.use(await authMiddleware());
 }
 
+// 404 前端路由处理中间件
+app.use(notFoundMiddleware());
 export default app;
