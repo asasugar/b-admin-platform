@@ -73,7 +73,9 @@ if [ "$skip" != "skip" ];
     pnpm install --registry=${REGISTRY} >& ${PNPMLOGFILE} || true
 
     # 检查错误
-    NPMERRCOUNT=`grep -ci 'ERROR' ${PNPMLOGFILE} 2>/dev/null || echo "0"`
+    # 本地调试脚本防止自动退出，CI上禁用
+    # NPMERRCOUNT=$(grep -ciE 'ERROR|ERR_' ${PNPMLOGFILE} 2>/dev/null) || true
+    NPMERRCOUNT=$(grep -ciE 'ERROR|ERR_' ${PNPMLOGFILE} 2>/dev/null)
 
     if [ "$NPMERRCOUNT" -gt 0 ];
       then
@@ -86,6 +88,8 @@ if [ "$skip" != "skip" ];
         print_progress 2 3 "清理PNPM存储..."
 
         # 安全地获取存储路径
+        # 本地调试脚本防止自动退出，CI上禁用
+        # STORE_PATH=$(pnpm store path 2>/dev/null) || true
         STORE_PATH=$(pnpm store path 2>/dev/null)
         if [ -n "$STORE_PATH" ] && [ -d "$STORE_PATH" ]; then
             print_info "存储路径: $STORE_PATH"
@@ -106,7 +110,9 @@ if [ "$skip" != "skip" ];
         print_info "重试安装依赖..."
         print_progress 3 3 "正在重试安装..."
         pnpm install --registry="$REGISTRY" >& "${PNPMLOGFILE}" || true
-        NPMERRCOUNT=`grep -ci 'ERROR' ${PNPMLOGFILE} 2>/dev/null || echo "0"`
+        # 本地调试脚本防止自动退出，CI上禁用
+        # NPMERRCOUNT=$(grep -ci 'ERROR|ERR_' ${PNPMLOGFILE} 2>/dev/null || true)
+        NPMERRCOUNT=$(grep -ciE 'ERROR|ERR_' ${PNPMLOGFILE} 2>/dev/null)
 
         # 再次检查错误
         if [ "$NPMERRCOUNT" -gt 0 ];
@@ -158,7 +164,9 @@ else
 fi
 
 # 检查构建错误
-BUILDERRCOUNT=`grep -ci 'ERROR' ${BUILDLOGFILE} 2>/dev/null || echo "0"`
+# 本地调试脚本防止自动退出，CI上禁用
+# BUILDERRCOUNT=`grep -ci 'ERROR' ${BUILDLOGFILE} 2>/dev/null || true`
+BUILDERRCOUNT=$(grep -ciE 'ERROR|ERR_' ${BUILDLOGFILE} 2>/dev/null)
 if [ "$BUILDERRCOUNT" -gt 0 ];
   then
     print_error "项目构建失败"

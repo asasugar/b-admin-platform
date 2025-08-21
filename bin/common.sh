@@ -23,13 +23,9 @@ print_progress() {
     local total=$2
     local message=$3
     local percent=$((step * 100 / total))
-    local filled=$((percent / 5))
-    local empty=$((20 - filled))
 
-    printf "\r${BLUE}[%s/%s]${NC} ${BOLD}%s${NC} [" "$step" "$total" "$message"
-    printf "%*s" $filled | tr ' ' '█'
-    printf "%*s" $empty | tr ' ' '░'
-    printf "] %d%%\n" $percent
+    # 简单的进度显示
+    printf "${BLUE}[%s/%s]${NC} ${BOLD}%s${NC} (%d%%)\n" "$step" "$total" "$message" "$percent"
 }
 
 # =============================================================================
@@ -38,9 +34,9 @@ print_progress() {
 
 # 打印主标题
 print_title() {
-    local title=${1:-"B-ADMIN BUILD TOOL"}
+    local title=${1:-"LUCKYSALSEFE BUILD TOOL"}
     echo -e "\n${BOLD}${BLUE}╔══════════════════════════════════════════════════════════════╗${NC}"
-    echo -e "${BOLD}${BLUE}║${NC}${BOLD}${WHITE}                       ${title}                     ${NC}${BOLD}${BLUE}║${NC}"
+    echo -e "${BOLD}${BLUE}║${NC}${BOLD}${WHITE}                       ${title}                ${NC}${BOLD}${BLUE}║${NC}"
     echo -e "${BOLD}${BLUE}╚══════════════════════════════════════════════════════════════╝${NC}\n"
 }
 

@@ -42,6 +42,6 @@ print_info "停止现有服务..."
 pnpm run stop
 
 print_info "启动服务..."
-pnpm run start:prod -- --stdout="$LOG_ROOT/master-stdout.log" --stderr="$LOG_ROOT/master-stderr.log" &
+pnpm run start:prod -- --stdout="$LOG_ROOT/master-stdout.log" --stderr="$LOG_ROOT/master-stderr.log"
 
 print_success "服务启动完成"

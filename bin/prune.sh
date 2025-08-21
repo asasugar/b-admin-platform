@@ -39,7 +39,7 @@ const backendPkg = JSON.parse(fs.readFileSync('packages/backend/package.json', '
 const backendDeps = Object.keys(backendPkg.dependencies || {});
 
 // 添加必需的运行时包
-const essentialPackages = ['tsx', 'typescript', 'dotenv', 'cross-env'];
+const essentialPackages = ['turbo', 'tsx', 'typescript', 'dotenv', 'dotenv-cli', 'cross-env', 'deepmerge'];
 
 // 合并所有需要保留的依赖
 const allDeps = new Set([...backendDeps, ...essentialPackages]);
@@ -142,7 +142,7 @@ print_info "验证 Backend 启动所需依赖..."
 print_progress 3 3 "正在验证依赖完整性..."
 
 MISSING_DEPS=""
-for dep in "koa" "tsx" "typescript" "cross-env"; do
+for dep in "turbo" "koa" "tsx" "typescript" "cross-env" "dotenv" "dotenv-cli" "deepmerge"; do
     if [ ! -d "node_modules/$dep" ] && [ ! -d "node_modules/.pnpm" ]; then
         MISSING_DEPS="$MISSING_DEPS $dep"
     fi
