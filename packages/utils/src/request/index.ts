@@ -15,20 +15,28 @@ const axiosInstance = axios.create({
 // 添加请求拦截器
 axiosInstance.interceptors.request.use(
   (config) => {
-    if (
-      config?.method?.toLocaleLowerCase() === 'post' ||
-      config?.method?.toLocaleLowerCase() === 'put'
-    ) {
-      // 参数统一处理，请求都使用data传参
-      Object.assign(config, { ...config.data });
-    } else if (
-      config?.method?.toLocaleLowerCase() === 'get' ||
-      config?.method?.toLocaleLowerCase() === 'delete'
-    ) {
-      // 参数统一处理
-      config.params = config.data;
-    } else {
-      throw new Error(`不允许的请求方法：${config.method}`);
+    const method = config?.method?.toLocaleLowerCase();
+
+    switch (method) {
+      // 这些方法通常在请求体中携带数据
+      case 'post':
+      case 'put':
+      case 'patch':
+        // 参数统一处理，请求都使用data传参
+        Object.assign(config, { ...config.data });
+        break;
+
+      // 这些方法通常在URL参数中携带数据
+      case 'get':
+      case 'delete':
+      case 'head':
+      case 'options':
+        // 参数统一处理
+        config.params = config.data;
+        break;
+
+      default:
+        throw new Error(`不允许的请求方法：${config.method}`);
     }
     return config;
   },
