@@ -11,23 +11,23 @@
 		"format": "pnpm exec biome format --write ./src"
 	},
 	"dependencies": {
-		"@b-admin-platform/build-utils": "workspace:*",
-		"@b-admin-platform/services": "workspace:*",
-		"@koa/bodyparser": "catalog:",
+		"@b-admin-platform/build-utils": "workspace:^",
+		"@b-admin-platform/services": "workspace:^",
+		"@koa/bodyparser": "^6.0.0",
 		"@koa/router": "^14.0.0",
 		"@types/jsonwebtoken": "^9.0.10",
 		"@types/koa__router": "^12.0.4",
-		"chalk": "catalog:",
+		"chalk": "^5.4.1",
 		"jsonwebtoken": "^9.0.2",
-		"koa": "catalog:",
-		"koa-proxies": "catalog:",
-		"koa-static": "catalog:"
+		"koa": "^3.0.0",
+		"koa-proxies": "^0.12.4",
+		"koa-static": "^5.0.0"
 	},
 	"devDependencies": {
-		"@types/koa": "catalog:",
-		"@types/koa-static": "catalog:",
-		"@types/node": "catalog:",
-		"tsx": "catalog:",
-		"typescript": "catalog:"
+		"@types/koa": "^2.15.0",
+		"@types/koa-static": "^4.0.4",
+		"@types/node": "^24.0.12",
+		"tsx": "^4.20.3",
+		"typescript": "^5.8.3"
 	}
 }

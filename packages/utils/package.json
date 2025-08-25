@@ -13,17 +13,15 @@
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "watch": "cross-env NODE_ENV=development tsup --watch",
-    "build": "cross-env NODE_ENV=production tsup",
-		"clean": "rm -rf node_modules",
+    "dev:deps": "cross-env NODE_ENV=development tsup --watch",
+    "build:deps": "cross-env NODE_ENV=production tsup",
+    "clean": "rm -rf node_modules && rm -rf dist",
     "lint": "pnpm exec biome lint --write ./src",
     "check": "pnpm exec biome check --write ./src",
     "format": "pnpm exec biome format --write ./src"
   },
-  "dependencies": {
-    "axios": "catalog:"
-  },
   "peerDependencies": {
+    "axios": "^1.10.0",
     "antd": "^5.26.4"
   }
 }

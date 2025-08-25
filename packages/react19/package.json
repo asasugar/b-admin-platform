@@ -12,27 +12,27 @@
 		"format": "pnpm exec biome format --write ./src"
 	},
 	"dependencies": {
-		"@b-admin-platform/services": "workspace:*",
-		"@formily/antd-v5": "catalog:",
-		"@formily/core": "catalog:",
-		"@formily/react": "catalog:",
-		"antd": "catalog:",
-		"axios": "catalog:",
-		"moment": "catalog:",
-		"react": "catalog:",
-		"react-dom": "catalog:",
-		"react-router-dom": "catalog:",
+		"@b-admin-platform/services": "workspace:^",
+		"@formily/antd-v5": "^1.2.4",
+		"@formily/core": "^2.3.7",
+		"@formily/react": "^2.3.7",
+		"antd": "^5.26.4",
+		"axios": "^1.10.0",
+		"moment": "^2.30.1",
+		"react": "^19.1.0",
+		"react-dom": "^19.1.0",
+		"react-router-dom": "^7.6.3",
 		"zustand": "^5.0.7"
 	},
 	"devDependencies": {
-		"@b-admin-platform/build-utils": "workspace:*",
-		"@rsbuild/core": "catalog:",
-		"@rsbuild/plugin-react": "catalog:",
-		"@tailwindcss/postcss": "catalog:",
-		"@types/react": "catalog:",
-		"@types/react-dom": "catalog:",
-		"cross-env": "catalog:",
-		"tailwindcss": "catalog:",
-		"typescript": "catalog:"
+		"@b-admin-platform/build-utils": "workspace:^",
+		"@rsbuild/core": "^1.4.16",
+		"@rsbuild/plugin-react": "^1.3.5",
+		"@tailwindcss/postcss": "^4.0.14",
+		"@types/react": "^19.1.0",
+		"@types/react-dom": "^19.1.7",
+		"cross-env": "^7.0.3",
+		"tailwindcss": "^4.0.14",
+		"typescript": "^5.8.3"
 	}
 }

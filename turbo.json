@@ -10,12 +10,18 @@
 	"ui": "tui",
 	"concurrency": "10",
 	"tasks": {
-		"dev": {
+		"dev:deps": {
 			"cache": false,
-			"persistent": true,
-			"dependsOn": [
-				"^build"
-			]
+			"persistent": true
+		},
+		"dev": {
+			"with": [
+				"@b-admin-platform/utils#dev:deps",
+				"@b-admin-platform/services#dev:deps",
+				"@b-admin-platform/hooks#dev:deps"
+			],
+			"cache": false,
+			"persistent": true
 		},
 		"clean": {
 			"cache": false
@@ -23,11 +29,21 @@
 		"build": {
 			"cache": true,
 			"dependsOn": [
+				"^build:deps",
 				"^build"
 			],
 			"outputs": [
 				"dist/**",
 				"../../apps/**"
+			],
+			"outputLogs": "full"
+		},
+		"build:deps": {
+			"dependsOn": [
+				"^build:deps"
+			],
+			"outputs": [
+				"dist/**"
 			],
 			"outputLogs": "full"
 		},

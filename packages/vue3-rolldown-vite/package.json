@@ -15,7 +15,7 @@
     "clean": "rm -rf node_modules"
   },
   "dependencies": {
-    "@b-admin-platform/services": "workspace:*",
+    "@b-admin-platform/services": "workspace:^",
     "@element-plus/icons-vue": "^2.3.2",
     "element-plus": "^2.10.7",
     "pinia": "^3.0.3",
@@ -23,7 +23,7 @@
     "vue-router": "^4.5.1"
   },
   "devDependencies": {
-    "@b-admin-platform/build-utils": "workspace:*",
+    "@b-admin-platform/build-utils": "workspace:^",
     "@fullhuman/postcss-purgecss": "^7.0.2",
     "@tsconfig/node22": "^22.0.2",
     "@vitejs/plugin-vue": "^6.0.1",
