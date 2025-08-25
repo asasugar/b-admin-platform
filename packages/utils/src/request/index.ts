@@ -69,8 +69,12 @@ axiosInstance.interceptors.response.use(
     return response.data;
   },
   async (error) => {
+    if (!error?.response) {
+      throw error;
+    }
+
     // 非2xx的状态码会走这里
-    const { status }: { status: BackendErrorStatus } = error.response;
+    const { status }: { status: BackendErrorStatus } = error.response || {};
 
     // 尝试使用 responseHandle 处理错误状态码
     // 如果是已定义的状态码，使用对应的处理函数
