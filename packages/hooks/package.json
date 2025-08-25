@@ -1,0 +1,32 @@
+{
+  "name": "@b-ui/hooks",
+  "version": "0.0.1-alpha.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "dev:deps": "cross-env NODE_ENV=development tsup --watch",
+    "build:deps": "cross-env NODE_ENV=production tsup",
+    "clean": "rm -rf node_modules && rm -rf dist",
+    "lint": "pnpm exec biome lint --write ./src",
+    "check": "pnpm exec biome check --write ./src",
+    "format": "pnpm exec biome format --write ./src"
+  },
+  "dependencies": {
+    "@b-admin-platform/utils": "workspace:^",
+    "@b-admin-platform/services": "workspace:^"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0",
+    "antd": ">=5.0.0",
+    "react-router-dom": ">=6.0.0"
+  }
+}
